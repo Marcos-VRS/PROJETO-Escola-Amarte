@@ -8,6 +8,7 @@ static/
 media/
 project/local_settings.py
 texto.txt
+base_static\global\img\Esquema de cores.JPG
 
 
 # Backup files #

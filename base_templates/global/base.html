@@ -1,12 +1,93 @@
-{% load static %}<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'global/css/style.css' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:wght@400;400italic;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+
     <title>Amarte</title>
 </head>
-<body>
-    <h1>Amarte</h1>
+
+<body class="main-bg">
+    <aside class="menu faded-black-bg">
+        <div class="main-content menu-content">
+            <h1><a href="#"><img src="{% static "global/img/Amarte.jpg" %}" alt="Logo" class="img-logo"></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="#">AULAS</a></li>
+                    <li><a href="#">GALERIA</a></li>
+                    <li><a href="#">METODOLOGIA</a></li>
+                    <li><a href="#">QUEM SOMOS</a></li>
+                    <li><a href="#">CONTATO</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <div class="menu-spacing"></div>
+
+    <section class="main-bg section">
+        <!-- Swiper -->
+        <div class="carousel-container swiper-container">
+            <div class="carousel-slide swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide"><img src="{% static 'global/img/matriculas_abertas.jpg' %}" alt="Foto 1"></div>
+                <div class="swiper-slide"><img src="{% static 'global/img/show_dos_alunos.jpg' %}" alt="Foto 2"></div>
+                <div class="swiper-slide"><img src="{% static 'global/img/musicalizacao_infantil.jpg' %}" alt="Foto 3"></div>
+                <!-- Adicione quantas slides desejar -->
+            </div>
+            <!-- Navegação -->
+            <div class="swiper-button-next carousel-next"></div>
+            <div class="swiper-button-prev carousel-prev"></div>
+            <!-- Paginação -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <section class="light-gray-bg section"></section>
+    <section class="main-bg section"></section>
+    <section class="light-gray-bg section"></section>
+    <section class="main-bg section"></section>
+    <section class="light-gray-bg section"></section>
+
+
+    <footer>
+
+
+
+
 </body>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,  // Permite loop infinito
+        autoplay: {
+            delay: 2500,  // Tempo entre slides (em ms)
+            disableOnInteraction: false,  // Continua após interação do usuário
+        },
+        navigation: {
+            nextEl: '.carousel-next',
+            prevEl: '.carousel-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        effect: 'slide',  // Transição de slide suave
+        speed: 600,  // Velocidade da transição (em ms)
+        slidesPerView: 1,  // Número de slides visíveis
+        spaceBetween: 30,  // Espaçamento entre slides
+        grabCursor: true,  // Cursor de "mão" para indicar que é arrastável
+    });
+</script>
 </html>
