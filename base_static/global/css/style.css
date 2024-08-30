@@ -154,3 +154,43 @@ a {
 .swiper-pagination-bullet-active {
     background: var(--primary-color);
 }
+
+.whatsapp-icon {
+    position: fixed;
+    bottom: 2rem;
+    /* Ajuste a distância do fundo conforme necessário */
+    right: 2rem;
+    /* Ajuste a distância da borda direita conforme necessário */
+    background-color: #25D366;
+    /* Cor de fundo do ícone */
+    color: #fff;
+    /* Cor do ícone */
+    border-radius: 50%;
+    /* Tornar o fundo circular */
+    width: 5rem;
+    /* Largura do ícone */
+    height: 5rem;
+    /* Altura do ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    /* Sombra para destacar o ícone */
+    font-size: 2rem;
+    /* Tamanho do ícone */
+    z-index: 1100;
+    /* Garantir que o ícone esteja acima dos outros elementos */
+    transition: background-color 0.3s ease;
+    /* Transição suave para o fundo ao passar o mouse */
+}
+
+.whatsapp-icon:hover {
+    background-color: #128C7E;
+    transform: scale(1.3);
+
+    /* Cor de fundo ao passar o mouse */
+}
+
+.whatsapp-icon i {
+    margin: 0;
+}
