@@ -7,7 +7,7 @@ db.sqlite3
 static/
 media/
 project/local_settings.py
-
+texto.txt
 
 
 # Backup files #
