@@ -31,12 +31,14 @@
             </nav>
         </div>
     </aside>
-    <div class="menu-spacing"></div>
 
+    
+    
+    
     <section class="main-bg section">
         <!-- Swiper -->
-        <div class="carousel-container swiper-container">
-            <div class="carousel-slide swiper-wrapper">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
                 <!-- Slides -->
                 <div class="swiper-slide"><img src="{% static 'global/img/matriculas_abertas.jpg' %}" alt="Foto 1"></div>
                 <div class="swiper-slide"><img src="{% static 'global/img/show_dos_alunos.jpg' %}" alt="Foto 2"></div>
@@ -44,8 +46,8 @@
                 <!-- Adicione quantas slides desejar -->
             </div>
             <!-- Navegação -->
-            <div class="swiper-button-next carousel-next"></div>
-            <div class="swiper-button-prev carousel-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
             <!-- Paginação -->
             <div class="swiper-pagination"></div>
         </div>
@@ -76,8 +78,8 @@
             disableOnInteraction: false,  // Continua após interação do usuário
         },
         navigation: {
-            nextEl: '.carousel-next',
-            prevEl: '.carousel-prev',
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
         },
         pagination: {
             el: '.swiper-pagination',

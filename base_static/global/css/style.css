@@ -2,7 +2,7 @@
     --primary-color: #230023;
     --white-color: #ffffffe8;
     --light-gray-color: #eeeeee3d;
-    --faded-black-color: rgba(0, 0, 0, 0.5);
+    --faded-black-color: rgba(0, 0, 0, 0.8);
     --white-gray-color: #e2dee2;
     --gap: 3rem;
 }
@@ -44,6 +44,14 @@ a {
     background-image: url('../img/endless-constellation.svg');
     background-position: center center;
     color: var(--white-color);
+}
+
+.faded-black-bg {
+    background: var(--faded-black-color);
+}
+
+.light-gray-bg {
+    background: var(--light-gray-color);
 }
 
 .menu {
@@ -112,6 +120,8 @@ a {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
+    top: 0;
+    left: 0;
 }
 
 .swiper-container {
