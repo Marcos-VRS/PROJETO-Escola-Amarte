@@ -385,3 +385,60 @@ a {
     top: 0;
     left: 0;
 }
+
+
+
+
+@media screen and (max-width: 1020px) {
+    #section2 {
+        height: auto;
+        min-height: auto;
+    }
+
+    /* CLASSES GERAIS*/
+    .image-grid {
+        grid-template-columns: 1fr;
+        /* Garante uma coluna para dispositivos móveis */
+        height: auto !important;
+        /* Garante que a altura se ajuste ao conteúdo */
+        gap: 1.5rem;
+        padding: 2rem;
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .section {
+        max-height: fit-content;
+
+    }
+
+    /* Remove o height fixo para section-part */
+    .section-part {
+        width: 90%;
+        display: grid;
+        height: auto !important;
+        min-height: auto;
+        /* Garante que a altura se ajuste ao conteúdo */
+        padding: 2rem;
+    }
+
+    /* Ajusta o comportamento de section-container */
+    .section-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* Altera para uma coluna */
+        grid-template-rows: auto;
+        /* Adapta a altura das linhas ao conteúdo */
+        gap: 1.5rem;
+        /* Mantém o espaço entre as seções */
+    }
+
+    /* CABEÇALHO */
+    .menu-nav {
+        display: none;
+    }
+
+}
