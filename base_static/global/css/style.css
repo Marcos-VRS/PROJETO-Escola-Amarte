@@ -262,12 +262,13 @@ a {
 }
 
 /* Estiliza a seção de contato */
+/* Estiliza a seção de contato */
 #section7 {
     display: grid;
-    grid-template-rows: 1fr 4fr;
-    /* Divide a seção em duas linhas (1/5 e 4/5 da altura) */
+    grid-template-rows: 4rem 1fr;
+    /* Ajuste para uma linha fixa e uma linha flexível */
     gap: 0;
-    /* Espaço entre as linhas */
+    /* Remove o espaço entre as linhas */
     height: 100vh;
     /* Altura total da viewport */
     padding: 2rem;
@@ -280,37 +281,107 @@ a {
     border-radius: 1rem;
     /* Bordas arredondadas */
     padding: 2rem;
-    padding-top: 11rem;
-    /* Espaçamento interno */
+    padding-top: 0;
+    /* Remove o padding superior */
+    padding-bottom: 0;
+    /* Remove o padding inferior */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: var(--white-color);
-    bottom: 0;
+    height: 4rem;
+    /* Altura fixa para o cabeçalho */
 }
 
 /* Estiliza a linha inferior */
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* Duas colunas de tamanho igual */
-    gap: var(--gap);
-    /* Espaço entre as colunas */
+    /* Duas colunas */
+    gap: 2rem;
+    /* Espaçamento entre as colunas */
     background-color: var(--faded-black-color);
     border-radius: 1rem;
-    /* Bordas arredondadas */
     padding: 2rem;
-    /* Espaçamento interno */
-    top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    /* Remove o padding superior */
 }
 
-/* Estiliza as colunas da linha inferior */
+
 .contact-column {
     background-color: var(--white-gray-color);
     border-radius: 1rem;
-    /* Bordas arredondadas */
-    padding: 5rem;
-    /* Espaçamento interno */
+    padding: 2rem;
     color: var(--primary-color);
+    box-sizing: border-box;
+    /* Garante que padding e borda não aumentem a largura */
+}
+
+.contact-info {
+    position: relative;
+    /* Posiciona o formulário corretamente */
+}
+
+.contact-form {
+    margin-top: 1rem;
+    /* Espaço reduzido entre as informações de contato e o formulário */
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Espaço entre os campos do formulário */
+}
+
+.contact-form label {
+    margin-bottom: 0.5rem;
+    /* Espaço entre o rótulo e o campo de entrada */
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form button {
+    width: 100%;
+    /* Garante que os elementos usem a largura total disponível */
+    box-sizing: border-box;
+    /* Garante que padding e borda estejam incluídos na largura */
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.8rem;
+    /* Menor padding para a caixa de texto */
+    border-radius: 0.5rem;
+    border: 1px solid var(--primary-color);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    /* Permite redimensionar verticalmente, se desejado */
+    height: 100px;
+    /* Ajuste a altura da caixa de texto */
+}
+
+.contact-form button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: darken(var(--primary-color), 10%);
+}
+
+.section7 {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    left: 0;
 }
