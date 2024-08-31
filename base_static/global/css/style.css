@@ -180,17 +180,75 @@ a {
     /* Tamanho do ícone */
     z-index: 1100;
     /* Garantir que o ícone esteja acima dos outros elementos */
-    transition: background-color 0.3s ease;
+    transition: background-color 2s ease-in-out;
     /* Transição suave para o fundo ao passar o mouse */
+    transition: transform 0.3s ease-in-out;
 }
 
 .whatsapp-icon:hover {
     background-color: #128C7E;
-    transform: scale(1.3);
+    transform: scale(1.4);
 
     /* Cor de fundo ao passar o mouse */
 }
 
 .whatsapp-icon i {
     margin: 0;
+}
+
+.horizontal-sections {
+    background-color: var(--primary-color);
+    /* Cor de fundo opcional */
+    padding: 2rem;
+    /* Padding geral para a seção */
+    display: flex;
+    align-items: stretch;
+    /* Garante que os itens filhos ocupem a altura total da seção */
+    height: 100vh;
+    /* Altura total da viewport */
+}
+
+.section-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    /* Garante que o container ocupe a altura total da seção */
+    max-width: 100%;
+    /* Limita a largura máxima da seção */
+}
+
+.section-part {
+    width: 10rem;
+    margin: 0 1rem;
+    /* Margem entre as partes */
+    background-color: var(--white-gray-color);
+    /* Cor de fundo para as partes */
+    border-radius: 1rem;
+    /* Bordas arredondadas */
+    padding: 1.5rem;
+    /* Padding interno das partes */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Sombra opcional */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centraliza o conteúdo verticalmente */
+    text-align: center;
+    /* Alinha o texto ao centro */
+    height: calc(100vh - 2rem);
+    /* Ajusta a altura da parte, descontando o padding geral da seção */
+}
+
+.section-part:nth-child(1) {
+    flex: 2;
+}
+
+.section-part:nth-child(2) {
+    flex: 1;
+}
+
+.section-part p {
+    margin: 0;
+    /* Remove margens padrão dos parágrafos */
 }
