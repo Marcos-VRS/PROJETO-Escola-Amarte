@@ -12,42 +12,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-
-    <title>Amarte</title>
+    <title>Amarte - Academia Musical</title>
 </head>
-
-
-
 
 <body class="main-bg">
 
-
-
-
     <aside class="menu faded-black-bg">
         <div class="main-content menu-content">
-            <h1><a href="#"><img src="{% static "global/img/Amarte.jpg" %}" alt="Logo" class="img-logo"></a></h1>
+            <h1><a href="#section1"><img src="{% static 'global/img/Amarte.jpg' %}" alt="Logo" class="img-logo"></a></h1>
             <nav>
                 <ul>
-                    <li><a href="#">AULAS</a></li>
-                    <li><a href="#">GALERIA</a></li>
-                    <li><a href="#">METODOLOGIA</a></li>
-                    <li><a href="#">QUEM SOMOS</a></li>
-                    <li><a href="#">CONTATO</a></li>
-
+                    <li><a href="#section2">AULAS</a></li>
+                    <li><a href="#section3">EVENTOS</a></li>
+                    <li><a href="#section4">GALERIA</a></li>
+                    <li><a href="#section5">METODOLOGIA</a></li>
+                    <li><a href="#section6">QUEM SOMOS</a></li>
+                    <li><a href="#section7">CONTATO</a></li>
                 </ul>
             </nav>
         </div>
     </aside>
 
-
-
-
-    
-    
-<!--SECTION 1-->
-
-    <section class="main-bg section">
+    <!--SECTION 1-->
+    <section id="section1" class="main-bg section">
         <!-- Swiper -->
         <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -65,48 +52,80 @@
         </div>
     </section>
 
-
-
-
-
-<!--SECTION 2-->
-    <section class="horizontal-sections main-bg">
+    <!--SECTION 2-->
+    <section id="section2" class="horizontal-sections main-bg">
         <div class="section-container">
             <div class="section-part">
                 <div class="image-grid">
                     <!-- Coloque cada imagem dentro de um bloco .image-item -->
-                    <div class="image-item">
+                    <div class="image-item" data-title="SHOW DOS ALUNOS" data-text="Explore as performances vibrantes de nossos alunos. Em cada apresentação, eles mostram seu talento e dedicação, oferecendo um espetáculo musical que emociona e inspira. Nossos eventos são uma oportunidade para vivenciar a paixão e o crescimento dos futuros músicos. Cada apresentação é cuidadosamente preparada para proporcionar uma experiência memorável para o público, destacando a evolução e o compromisso dos nossos alunos com a arte musical. Junte-se a nós para celebrar e apoiar os artistas em formação e testemunhar o impacto da música em suas vidas.">
+                        <img src="{% static 'global/img/show_dos_alunos.jpg' %}" alt="Imagem 9">
+                    </div> 
+                    <div class="image-item" data-title="AULA DE CANTO" data-text="Descubra a magia das aulas de canto, onde cada nota e melodia são cuidadosamente aprimoradas. Nossos alunos exploram técnicas vocais, expressão artística e o poder da voz, desenvolvendo habilidades que os ajudarão a brilhar no palco e na vida. As aulas são estruturadas para promover o crescimento vocal, aumentar a confiança e melhorar a técnica, proporcionando uma base sólida para futuros artistas. Com foco em diversos estilos musicais e técnicas, nossos alunos têm a oportunidade de explorar sua criatividade e expressar emoções através da música, preparando-se para apresentações e audições.">
                         <img src="{% static 'global/img/aulas_de_canto.jpg' %}" alt="Imagem 1">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE GUITARRA" data-text="Mergulhe no mundo das aulas de guitarra, onde nossos alunos aprendem desde os acordes básicos até solos avançados. Cada aula é uma jornada musical, oferecendo a oportunidade de dominar a guitarra e criar música com paixão e técnica. Com um currículo que cobre uma variedade de estilos e técnicas, os alunos desenvolvem habilidades essenciais para se tornarem músicos completos. Desde a prática de riffs e escalas até a execução de peças complexas, nossas aulas proporcionam uma formação abrangente e enriquecedora.">
                         <img src="{% static 'global/img/aulas_de_guitarra.jpg' %}" alt="Imagem 2">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE BAIXO" data-text="As aulas de baixo oferecem uma base sólida para os aspirantes a baixistas. Aqui, nossos alunos exploram ritmos, técnicas e a importância do baixo na formação da base musical. É uma experiência que fundamenta a habilidade de tocar e criar grooves envolventes. Com foco na construção de habilidades técnicas e na compreensão dos diferentes estilos musicais, os alunos aprendem a importância do baixo em diversas formações musicais. Cada aula é uma oportunidade para desenvolver uma base sólida e uma compreensão profunda do papel do baixo na música.">
                         <img src="{% static 'global/img/aulas_de_baixo.jpg' %}" alt="Imagem 3">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE BATERIA" data-text="As aulas de bateria são o coração pulsante de nossa academia. Nossos alunos aprendem a dominar o ritmo, desenvolver coordenação e criar batidas que energizam e acompanham diversos estilos musicais. Cada batida é um passo para se tornar um mestre da percussão. Com um foco em técnicas de percussão, ritmo e expressão, as aulas são projetadas para ajudar os alunos a explorar e expandir suas habilidades musicais. As aulas também promovem a capacidade de tocar em conjunto, aprimorando a capacidade de acompanhar e interagir com outros músicos.">
                         <img src="{% static 'global/img/aulas_de_bateria.jpg' %}" alt="Imagem 4">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE VIOLINO" data-text="Descubra a elegância das aulas de violino, onde nossos alunos aperfeiçoam sua técnica e expressão musical. Com foco em escalas, peças clássicas e modernas, cada aula é uma oportunidade para criar harmonias e melodias que encantam e emocionam. As aulas são projetadas para desenvolver habilidades técnicas e interpretação musical, com um currículo que abrange desde os fundamentos básicos até a execução de obras complexas. Os alunos têm a chance de explorar uma ampla gama de estilos e técnicas, promovendo um crescimento contínuo como violinistas.">
                         <img src="{% static 'global/img/aulas_de_violino.jpg' %}" alt="Imagem 5">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE VIOLÃO" data-text="As aulas de violão combinam técnica e criatividade. Nossos alunos exploram acordes, ritmos e estilos variados, desenvolvendo uma habilidade versátil que lhes permite tocar diversos gêneros musicais. Cada aula é uma chance de aprimorar a técnica e a expressão musical, com foco em diferentes aspectos do violão. Desde a prática de técnicas básicas até a execução de peças mais complexas, as aulas proporcionam uma formação abrangente. Os alunos têm a oportunidade de explorar estilos variados e desenvolver uma abordagem criativa e técnica para o violão.">
                         <img src="{% static 'global/img/aulas_de_violao.jpg' %}" alt="Imagem 6">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="AULA DE TEATRO" data-text="Nossas aulas de teatro oferecem uma plataforma para desenvolver habilidades dramáticas e expressão criativa. Alunos exploram atuação, improvisação e narrativa, preparando-se para enfrentar o palco com confiança e criatividade. Cada aula é um passo na jornada para se tornar um artista completo. Com um enfoque na construção de personagens, técnicas de improvisação e desenvolvimento de habilidades cênicas, as aulas proporcionam uma formação sólida em teatro. Os alunos têm a chance de experimentar e crescer como atores, desenvolvendo suas habilidades e aprimorando sua presença cênica.">
                         <img src="{% static 'global/img/aulas_de_teatro.jpg' %}" alt="Imagem 7">
                     </div>
-                    <div class="image-item">
+                    <div class="image-item" data-title="MUSICALIZAÇÃO INFANTIL" data-text="A musicalização infantil é uma introdução divertida e educativa à música para os pequenos. Através de jogos, canções e atividades rítmicas, as crianças desenvolvem habilidades musicais e cognitivas, promovendo a expressão artística e o amor pela música desde cedo. As aulas são projetadas para estimular o desenvolvimento cognitivo, motor e social das crianças, utilizando métodos interativos e lúdicos. Com atividades adaptadas à faixa etária, nossos pequenos músicos começam a explorar o mundo da música de forma envolvente e criativa, criando uma base sólida para futuros aprendizados.">
                         <img src="{% static 'global/img/musicalizacao_infantil.jpg' %}" alt="Imagem 8">
-                    </div>
-                    <div class="image-item">
-                        <img src="{% static 'global/img/show_dos_alunos.jpg' %}" alt="Imagem 9">
                     </div>
                 </div>
             </div>
             <div class="section-part">
-                <h2 class="">AULA DE CANTO</h2>
-                <p>Conteúdo da Parte 2</p>
+                <h2 id="section2-title" class="h2-section2">SHOW DOS ALUNOS</h2>
+                <p id="section2-text">Explore as performances vibrantes de nossos alunos. Em cada apresentação, eles mostram seu talento e dedicação, oferecendo um espetáculo musical que emociona e inspira. Nossos eventos são uma oportunidade para vivenciar a paixão e o crescimento dos futuros músicos. Cada apresentação é cuidadosamente preparada para proporcionar uma experiência memorável para o público, destacando a evolução e o compromisso dos nossos alunos com a arte musical. Junte-se a nós para celebrar e apoiar os artistas em formação e testemunhar o impacto da música em suas vidas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section3" class="main-bg section"></section>
+    <section id="section4" class="main-bg section"></section>
+    <section id="section5" class="main-bg section"></section>
+    <section id="section6" class="main-bg section"></section>
+    
+    
+    
+    
+    
+    <!--SECTION 7 - Contato-->
+    <section id="section7" class="main-bg section">
+        <div class="contact-header">
+            <h2>Entre em Contato Conosco</h2>
+        </div>
+        <div class="contact-content">
+            <div class="contact-column">
+                <h3>Informações de Contato</h3>
+                <p>Endereço: R. Raposo Câmara, 3330 - Candelária, Natal - RN, 59065-150</p>
+                <p>Telefone: (84) 99694-1015</p>
+                <p>Email: musicaamarte@gmail.com</p>
+            </div>
+            <div class="contact-column">
+                <h3>Formulário de Contato</h3>
+                <form action="/enviar-formulario" method="post">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="message">Mensagem:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
             </div>
         </div>
     </section>
@@ -117,46 +136,54 @@
 
 
 
-    <section class="main-bg section"></section>
-    <section class="main-bg section"></section>
-    <section class="main-bg section"></section>
-    <section class="main-bg section"></section>
-
 
 
     <a href="https://wa.me/558496941015" class="whatsapp-icon" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
-    <footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper-container', {
+            loop: true,  // Permite loop infinito
+            autoplay: {
+                delay: 4500,  // Tempo entre slides (em ms)
+                disableOnInteraction: false,  // Continua após interação do usuário
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            effect: 'slide',  // Transição de slide suave
+            speed: 1000,  // Velocidade da transição (em ms)
+            slidesPerView: 1,  // Número de slides visíveis
+            spaceBetween: 30,  // Espaçamento entre slides
+            grabCursor: true,  // Cursor de "mão" para indicar que é arrastável
+        });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('.image-item');
+            const textElement = document.getElementById('section2-text');
+            const titleElement = document.getElementById('section2-title');
 
+            // Define o título inicial e o texto
+            textElement.textContent = "Explore as performances vibrantes de nossos alunos. Em cada apresentação, eles mostram seu talento e dedicação, oferecendo um espetáculo musical que emociona e inspira. Nossos eventos são uma oportunidade para vivenciar a paixão e o crescimento dos futuros músicos. Cada apresentação é cuidadosamente preparada para proporcionar uma experiência memorável para o público, destacando a evolução e o compromisso dos nossos alunos com a arte musical. Junte-se a nós para celebrar e apoiar os artistas em formação e testemunhar o impacto da música em suas vidas.";
+            titleElement.textContent = "SHOW DOS ALUNOS";
 
+            images.forEach(image => {
+                image.addEventListener('click', () => {
+                    const newText = image.getAttribute('data-text');
+                    const newTitle = image.getAttribute('data-title');
+                    textElement.textContent = newText;
+                    titleElement.textContent = newTitle;
+                });
+            });
+        });
+    </script>
 </body>
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script>
-    const swiper = new Swiper('.swiper-container', {
-        loop: true,  // Permite loop infinito
-        autoplay: {
-            delay: 4500,  // Tempo entre slides (em ms)
-            disableOnInteraction: false,  // Continua após interação do usuário
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        effect: 'slide',  // Transição de slide suave
-        speed: 1000,  // Velocidade da transição (em ms)
-        slidesPerView: 1,  // Número de slides visíveis
-        spaceBetween: 30,  // Espaçamento entre slides
-        grabCursor: true,  // Cursor de "mão" para indicar que é arrastável
-    });
-</script>
 </html>
