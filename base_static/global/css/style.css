@@ -266,7 +266,7 @@ a {
     display: grid;
     grid-template-rows: 1fr 4fr;
     /* Divide a seção em duas linhas (1/5 e 4/5 da altura) */
-    gap: var(--gap);
+    gap: 0;
     /* Espaço entre as linhas */
     height: 100vh;
     /* Altura total da viewport */
@@ -280,12 +280,14 @@ a {
     border-radius: 1rem;
     /* Bordas arredondadas */
     padding: 2rem;
+    padding-top: 11rem;
     /* Espaçamento interno */
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: var(--white-color);
+    bottom: 0;
 }
 
 /* Estiliza a linha inferior */
