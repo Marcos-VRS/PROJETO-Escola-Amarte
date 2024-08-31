@@ -2,7 +2,8 @@
     --primary-color: #230023;
     --white-color: #ffffffe8;
     --light-gray-color: #eeeeee3d;
-    --faded-black-color: rgba(0, 0, 0, 0.8);
+    --faded-black-color: rgba(0, 0, 0, 0.534);
+    --faded-thin-black-color: rgba(0, 0, 0, 0.233);
     --white-gray-color: #e2dee2;
     --gap: 3rem;
 }
@@ -40,6 +41,8 @@ a {
     text-decoration: none;
 }
 
+
+
 .main-bg {
     background-image: url('../img/endless-constellation.svg');
     background-position: center center;
@@ -62,6 +65,7 @@ a {
     width: 100%;
     border-bottom: 0.1rem solid var(--light-gray-color);
     z-index: 1000;
+    height: 6rem;
 }
 
 .menu-content {
@@ -94,6 +98,7 @@ a {
 
 .menu ul li a {
     display: block;
+    bottom: 0.5rem;
     padding: 2rem;
     font-size: 1.8rem;
     color: var(--white-color);
@@ -221,27 +226,22 @@ a {
 .section-part {
     width: 10rem;
     margin: 0 1rem;
-    /* Margem entre as partes */
-    background-color: var(--white-gray-color);
-    /* Cor de fundo para as partes */
+    background-color: var(--faded-black-color);
     border-radius: 1rem;
-    /* Bordas arredondadas */
     padding: 1.5rem;
-    /* Padding interno das partes */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    /* Sombra opcional */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Centraliza o conteúdo verticalmente */
     text-align: center;
-    /* Alinha o texto ao centro */
     height: calc(100vh - 2rem);
-    /* Ajusta a altura da parte, descontando o padding geral da seção */
+    position: relative;
+    /* Adiciona a posição relativa para o posicionamento absoluto dos elementos internos */
 }
 
+
 .section-part:nth-child(1) {
-    flex: 2;
+    flex: 1.5;
 }
 
 .section-part:nth-child(2) {
@@ -251,4 +251,42 @@ a {
 .section-part p {
     margin: 0;
     /* Remove margens padrão dos parágrafos */
+}
+
+
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    /* Espaçamento entre as imagens */
+    padding: 2rem;
+    /* Espaçamento interno do contêiner da imagem */
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    bottom: 2rem;
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    max-width: 16em;
+    /* Limita a largura das imagens */
+    max-height: 16rem;
+    /* Limita a altura das imagens */
+    transition: transform 0.3s ease-in-out;
+
+}
+
+.image-item img:hover {
+    transform: scale(1.12);
+
+}
+
+.h2-section2 {
+    text-align: left;
 }
