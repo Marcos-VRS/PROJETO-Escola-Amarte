@@ -442,3 +442,85 @@ a {
     }
 
 }
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('{% static "global/img/endless-constellation.svg" %}');
+    background-position: center center;
+    color: var(--white-color);
+}
+
+.login-box {
+    background: var(--faded-black-color);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-box label {
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.login-box input {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    font-size: 1.6rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: var(--faded-thin-black-color);
+    color: var(--white-color);
+}
+
+.login-box button {
+    padding: 1rem;
+    font-size: 1.8rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+    background-color: #3a003a;
+}
+
+.login-box .message {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-top: 1rem;
+    color: #ff4b4b;
+}
+
+.login-box .success-message {
+    color: #4caf50;
+}
+
+.login-box .forgot-password {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.login-box .forgot-password a {
+    color: var(--white-color);
+    text-decoration: underline;
+}
