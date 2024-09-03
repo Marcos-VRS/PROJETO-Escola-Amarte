@@ -14,7 +14,7 @@ def login_view(request):
             user = form.get_user()
             auth.login(request, user)
             messages.success(request, "Logado com sucesso")
-            return redirect("financeiro:dashboard")
+            return redirect("financeiro:index")
             print(user)
 
         messages.error(request, "Login inválido")

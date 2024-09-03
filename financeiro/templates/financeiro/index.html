@@ -30,6 +30,13 @@
             position: relative;
         }
 
+        .sidebar .user-info {
+            font-size: 1.6rem;
+            color: var(--white-color);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
         .sidebar h2 {
             margin-bottom: 2rem;
             font-size: 2.4rem;
@@ -79,7 +86,7 @@
             background-color: #3a003a;
         }
 
-        .content {
+        .main-content {
             flex-grow: 1;
             padding: 3rem;
             background-color: var(--faded-thin-black-color);
@@ -90,21 +97,43 @@
 <body>
     <div class="container">
         <div class="sidebar">
+            <div class="user-info">Olá, {{ username }}</div>
             <h2>Financeiro</h2>
             <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Transações</a></li>
-                <li><a href="#">Aulas</a></li>
-                <li><a href="#">Cadastro</a></li>
-                <li><a href="#">Fiscal</a></li>
-                <li><a href="#">Metas</a></li>
+                <li><a href="{% url 'financeiro:dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'financeiro:transacoes' %}">Transações</a></li>
+                <li><a href="{% url 'financeiro:aulas' %}">Aulas</a></li>
+                <li><a href="{% url 'financeiro:cadastro' %}">Cadastro</a></li>
+                <li><a href="{% url 'financeiro:fiscal' %}">Fiscal</a></li>
+                <li><a href="{% url 'financeiro:metas' %}">Metas</a></li>
             </ul>
             <a href="{% url 'financeiro:tela_logout' %}" class="logout-button">Logout</a>
         </div>
-        <div class="content">
+        <div class="main-content">
             <!-- Área de conteúdo vazio por enquanto -->
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const links = document.querySelectorAll('.sidebar a');
+
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('href');
+
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.querySelector('.main-content').innerHTML = html;
+                        })
+                        .catch(error => {
+                            console.error('Erro ao carregar o conteúdo:', error);
+                        });
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
