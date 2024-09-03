@@ -1,14 +1,110 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'global/css/style.css' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:wght@400;400italic;700&display=swap"
+        rel="stylesheet">
+    <title>Financeiro - Amarte</title>
+    <style>
+        .container {
+            display: flex;
+            min-height: 100vh;
+            background-image: url('{% static "global/img/endless-constellation.svg" %}');
+            background-position: center center;
+            color: var(--white-color);
+        }
+
+        .sidebar {
+            background: var(--faded-black-color);
+            width: 167px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 2.4rem;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar ul li:hover {
+            transform: scale(1.2);
+        }
+
+        .sidebar ul li a {
+            color: var(--white-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: var(--white-color);
+        }
+
+        .logout-button {
+            margin-top: auto;
+            padding: 1rem;
+            font-size: 1.8rem;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #3a003a;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 3rem;
+            background-color: var(--faded-thin-black-color);
+        }
+    </style>
 </head>
 
 <body>
-    index financeiro
+    <div class="container">
+        <div class="sidebar">
+            <h2>Financeiro</h2>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Transações</a></li>
+                <li><a href="#">Aulas</a></li>
+                <li><a href="#">Cadastro</a></li>
+                <li><a href="#">Fiscal</a></li>
+                <li><a href="#">Metas</a></li>
+            </ul>
+            <a href="{% url 'financeiro:tela_logout' %}" class="logout-button">Logout</a>
+        </div>
+        <div class="content">
+            <!-- Área de conteúdo vazio por enquanto -->
+        </div>
+    </div>
 </body>
 
 </html>
