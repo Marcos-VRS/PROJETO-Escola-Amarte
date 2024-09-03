@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
 
     name = models.CharField(max_length=50)
 
@@ -17,6 +17,10 @@ class Category(models.Model):
 
 
 class Financeiro_Cadastro(models.Model):
+    class Meta:
+        verbose_name = "Cadastro"
+        verbose_name_plural = "Cadastro"
+
     nome = models.CharField(max_length=50)
     telefone = models.CharField(max_length=50)
     email = models.EmailField(max_length=254, blank=True)
