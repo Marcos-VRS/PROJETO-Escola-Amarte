@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from financeiro.forms import RegisterUpdateForm
 from django.contrib import messages, auth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -15,7 +14,7 @@ def login_view(request):
             user = form.get_user()
             auth.login(request, user)
             messages.success(request, "Logado com sucesso")
-            return redirect("financeiro:index")
+            return redirect("financeiro:dashboard")
             print(user)
 
         messages.error(request, "Login inválido")
@@ -27,18 +26,3 @@ def login_view(request):
 def logout_view(request):
     auth.logout(request)
     return redirect("financeiro:tela_login")
-
-
-@login_required(login_url="financeiro:tela_login")
-def user_update(request):
-    form = RegisterUpdateForm(instance=request.user)
-
-    if request.method == "POST":
-        form = RegisterUpdateForm(data=request.POST, instance=request.user)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Alteração realizada com sucesso")
-            return redirect("financeiro:index")
-
-    return render(request, "financeiro/user_update.html", {"form": form})
