@@ -8,7 +8,7 @@ urlpatterns = [
     path("login/", views.tela_login.login_view, name="tela_login"),
     path("logout/", views.tela_login.logout_view, name="tela_logout"),
     # Menu lateral
-    path("index/", views.index.index, name="index"),
+    path("index/", views.index.index_financeiro, name="index"),
     path("dashboard/", views.index.dashboard, name="dashboard"),
     path("transacoes/", views.index.transacoes, name="transacoes"),
     path("aulas/", views.index.aulas, name="aulas"),

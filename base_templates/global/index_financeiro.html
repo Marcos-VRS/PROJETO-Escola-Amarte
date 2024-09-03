@@ -110,7 +110,7 @@
             <a href="{% url 'financeiro:tela_logout' %}" class="logout-button">Logout</a>
         </div>
         <div class="main-content">
-            <!-- Área de conteúdo vazio por enquanto -->
+            {% block content %}{% endblock content %}
         </div>
     </div>
     <script>
@@ -122,10 +122,27 @@
                     e.preventDefault();
                     const url = this.getAttribute('href');
 
+                    console.log('Carregando URL:', url); // Adicione esta linha para verificar a URL
+
                     fetch(url)
-                        .then(response => response.text())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
                         .then(html => {
-                            document.querySelector('.main-content').innerHTML = html;
+                            console.log('Conteúdo carregado:', html); // Adicione esta linha para verificar o conteúdo
+
+                            // Cria um elemento temporário para extrair o conteúdo
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = html;
+
+                            // Encontra o conteúdo principal no HTML carregado
+                            const newContent = tempDiv.querySelector('.main-content').innerHTML;
+
+                            // Substitui o conteúdo atual
+                            document.querySelector('.main-content').innerHTML = newContent;
                         })
                         .catch(error => {
                             console.error('Erro ao carregar o conteúdo:', error);
@@ -133,6 +150,7 @@
                 });
             });
         });
+
     </script>
 </body>
 
