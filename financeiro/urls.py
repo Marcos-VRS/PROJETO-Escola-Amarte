@@ -15,4 +15,5 @@ urlpatterns = [
     path("cadastro/", views.index.cadastro, name="cadastro"),
     path("fiscal/", views.index.fiscal, name="fiscal"),
     path("metas/", views.index.metas, name="metas"),
+    path("tarefas/", views.index.tarefas, name="tarefas"),
 ]

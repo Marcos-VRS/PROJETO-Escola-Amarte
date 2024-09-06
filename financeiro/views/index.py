@@ -10,6 +10,13 @@ def index_financeiro(request):
 
 
 @login_required(login_url="financeiro:tela_login")
+def tarefas(request):
+    return render(
+        request, "global/partials/tarefas.html", {"username": request.user.username}
+    )
+
+
+@login_required(login_url="financeiro:tela_login")
 def dashboard(request):
     return render(
         request, "global/partials/dashboard.html", {"username": request.user.username}
