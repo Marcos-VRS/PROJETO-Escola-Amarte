@@ -5,14 +5,11 @@
     <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Gerenciar Cadastro</h1>
     <div class="button-container"
         style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
-        <a href="#" class="cadastro-button"
+        <a href="{% url 'financeiro:cadastro' %}" class="cadastro-button"
             style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
             Pesquisar
         </a>
-        <a href="{% url 'financeiro:criar_cadastro' %}" class="btn-cadastro cadastro-button"
-            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
-            Criar
-        </a>
+
         <a href="#" class="cadastro-button"
             style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
             Atualizar

@@ -18,4 +18,5 @@ urlpatterns = [
     path("tarefas/", views.index.tarefas, name="tarefas"),
     # CRUD
     path("cadastro/criar/", views.cadastro.criar_cadastro_view, name="criar_cadastro"),
+    path("pesquisar/", views.cadastro.pesquisar_cadastro, name="pesquisar_cadastro"),
 ]
