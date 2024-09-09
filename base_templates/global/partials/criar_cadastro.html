@@ -1,0 +1,139 @@
+{% extends "global/index_financeiro.html" %}
+
+{% block content %}
+<div class="cadastro-actions">
+    <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Gerenciar Cadastro</h1>
+    <div class="button-container"
+        style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+        <a href="#" class="cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Pesquisar
+        </a>
+        <a href="{% url 'financeiro:criar_cadastro' %}" class="btn-cadastro cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Criar
+        </a>
+        <a href="#" class="cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Atualizar
+        </a>
+    </div>
+</div>
+
+<!-- Novo bloco para o formulário -->
+<div class="form-container" style="margin-top: 2rem;">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Adicionar Novo Cadastro</h2>
+    <form method="post" enctype="multipart/form-data"
+        style="display: flex; flex-direction: column; align-items: center;">
+        {% csrf_token %}
+
+        <!-- Exibir mensagens de erro globais e específicas -->
+        <div style="width: 100%; max-width: 600px;">
+            {% if form.non_field_errors %}
+            <div class="error-message"
+                style="color: var(--white-color); font-size: 1.4rem; background-color: #dc3545; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+
+            <!-- Exibir mensagem de erro de email no topo -->
+            {% if form.email.errors %}
+            <div class="error-message"
+                style="color: var(--white-color); font-size: 1.4rem; background-color: #dc3545; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                {% for error in form.email.errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Loop para estilizar os campos e labels com classes -->
+        <div style="width: 100%; max-width: 600px;">
+            {% for field in form %}
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="{{ field.id_for_label }}"
+                    style="display: block; font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
+                    {{ field.label_tag }}
+                </label>
+                <div class="input-container" style="display: flex; flex-direction: column;">
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="error-message"
+                        style="color: var(--white-color); font-size: 1.2rem; margin-top: 0.5rem; background-color: #dc3545; padding: 0.5rem; border-radius: 0.5rem;">
+                        {{ field.errors|join:", " }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit"
+            style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
+            Salvar
+        </button>
+    </form>
+</div>
+
+<style>
+    .cadastro-button:hover {
+        background-color: #3a003a;
+        transform: scale(1.3);
+        /* Aumenta o tamanho para 1.3x */
+    }
+
+    /* Estilização para todos os campos de entrada, incluindo select e textarea */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1.6rem;
+        color: #000000;
+        /* Texto preto para todos os campos */
+        background-color: #ffffff;
+        /* Fundo branco para todos os campos */
+        border: 1px solid var(--white-color);
+        border-radius: 0.5rem;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Estilização adicional para os campos quando em foco */
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        background-color: #ffffff;
+        /* Fundo branco ao focar */
+        border-color: var(--primary-color);
+        /* Alterar a cor da borda ao focar */
+    }
+
+    /* Estilização para o campo de seleção (select) e opções (options) */
+    .form-group select {
+        background-color: #ffffff;
+        /* Fundo branco para o select */
+        color: #000000;
+        /* Texto preto para o select */
+        border: 1px solid var(--white-color);
+    }
+
+    .form-group select option {
+        background-color: #ffffff;
+        /* Fundo branco para as opções */
+        color: #000000;
+        /* Texto preto para as opções */
+    }
+
+    .form-group select:focus option {
+        background-color: #ffffff;
+        /* Fundo branco para as opções em foco */
+        color: #000000;
+        /* Texto preto para as opções em foco */
+    }
+</style>
+
+{% endblock %}

@@ -1,6 +1,32 @@
 {% extends "global/index_financeiro.html" %}
 
 {% block content %}
-<h1>Cadastro</h1>
-<p>Faça o cadastro de novos itens aqui.</p>
+<div class="cadastro-actions">
+    <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Gerenciar Cadastro</h1>
+    <div class="button-container"
+        style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+        <a href="#" class="cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Pesquisar
+        </a>
+        <a href="{% url 'financeiro:criar_cadastro' %}" class="btn-cadastro" class="cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Criar
+        </a>
+        <a href="#" class="cadastro-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
+            Atualizar
+        </a>
+
+    </div>
+</div>
+
+<style>
+    .cadastro-button:hover {
+        background-color: #3a003a;
+        transform: scale(1.3);
+        /* Aumenta o tamanho para 1.3x */
+    }
+</style>
+
 {% endblock %}
