@@ -27,5 +27,6 @@ urlpatterns = [
         name="atualizar_cadastro",
     ),
     # Aulas
-    path("adicionar_evento/", views.aulas.adicionar_evento, name="adicionar_evento"),
+    path("evento/criar", views.aulas.criar_evento, name="criar_evento"),
+    path("evento/consultar", views.aulas.consultar_evento, name="consultar_evento"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

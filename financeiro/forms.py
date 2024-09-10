@@ -3,7 +3,7 @@ from .models import Financeiro_Cadastro, Evento
 import re
 
 
-class FinanceiroCadastroForm(forms.ModelForm):
+class EventoForm(forms.ModelForm):
 
     class Meta:
         model = Evento
@@ -18,7 +18,7 @@ class FinanceiroCadastroForm(forms.ModelForm):
         }
 
 
-class EventoForm(forms.ModelForm):
+class FinanceiroCadastroForm(forms.ModelForm):
 
     class Meta:
         model = Financeiro_Cadastro

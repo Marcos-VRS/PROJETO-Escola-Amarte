@@ -1,0 +1,46 @@
+{% extends "global/index_financeiro.html" %}
+
+{% block content %}
+<div class="evento-actions">
+    <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Aulas</h1>
+
+    <div class="button-container"
+        style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+        <a href="{% url 'financeiro:criar_evento' %}" class="btn-evento evento-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1.3rem 2.6rem; font-size: 2.34rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.95rem;">
+            Criar Evento
+        </a>
+
+        <a href="{% url 'financeiro:consultar_evento' %}" class="btn-evento evento-button"
+            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1.3rem 2.6rem; font-size: 2.34rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.95rem;">
+            Consultar Evento
+        </a>
+    </div>
+</div>
+
+<!-- Quadro vazio abaixo do menu -->
+<div class="empty-section" style="margin-top: 2rem; text-align: center;">
+    <div class="empty-box"
+        style="width: 100%; max-width: 600px; height: 300px; border: 2px solid var(--primary-color); border-radius: 0.5rem; margin: 0 auto;">
+        <!-- Conteúdo futuro -->
+    </div>
+</div>
+
+<style>
+    .evento-button:hover {
+        background-color: #3a003a;
+        transform: scale(1.3);
+        /* Aumenta o tamanho para 1.3x */
+    }
+
+    .empty-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.82rem;
+        color: var(--primary-color);
+        /* Estilização para a caixa vazia */
+    }
+</style>
+
+{% endblock %}

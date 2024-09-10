@@ -1,12 +1,9 @@
 from django.contrib import admin
-from financeiro.models import Financeiro_Cadastro
-from financeiro.models import Category
-
-# Register your models here.
+from financeiro.models import Financeiro_Cadastro, Category, Evento
 
 
 @admin.register(Financeiro_Cadastro)
-class ContactAdmin(admin.ModelAdmin):
+class FinanceiroCadastroAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "nome",
@@ -16,7 +13,6 @@ class ContactAdmin(admin.ModelAdmin):
         "descrição",
         "categoria",
     )
-
     ordering = ("-id",)
     search_fields = (
         "id",
@@ -30,8 +26,30 @@ class ContactAdmin(admin.ModelAdmin):
         "nome",
     )
 
+    # Adiciona autocomplete para campos de busca
+    search_fields = ("nome", "cpf")
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     ordering = ("-id",)
+
+
+@admin.register(Evento)
+class EventoAdmin(admin.ModelAdmin):
+    list_display = (
+        "nome",
+        "data",
+        "hora",
+        "descrição",
+    )
+    search_fields = ("nome", "descrição")
+    filter_horizontal = (
+        "professores",
+        "alunos",
+    )
+    list_filter = ("data", "hora")
+
+    # Adiciona autocomplete para campos ManyToMany
+    autocomplete_fields = ("professores", "alunos")

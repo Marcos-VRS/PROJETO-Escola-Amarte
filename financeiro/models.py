@@ -118,10 +118,12 @@ class Evento(models.Model):
     descrição = models.TextField()  # Descrição do evento
 
     professores = models.ManyToManyField(
-        "Financeiro_Cadastro", related_name="eventos_professores"
+        "Financeiro_Cadastro",
+        related_name="eventos_professores",
+        verbose_name="professores",
     )  # ForeignKey para professores
     alunos = models.ManyToManyField(
-        "Financeiro_Cadastro", related_name="eventos_alunos"
+        "Financeiro_Cadastro", related_name="eventos_alunos", verbose_name="alunos"
     )  # ForeignKey para alunos
 
     def __str__(self):

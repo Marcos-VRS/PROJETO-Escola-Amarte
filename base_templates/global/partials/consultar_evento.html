@@ -1,0 +1,35 @@
+{% extends "global/index_financeiro.html" %}
+
+{% block content %}
+<div class="evento-search">
+    <!-- Botão para voltar para a tela anterior, posicionado no canto superior direito -->
+    <a href="{% url 'financeiro:aulas' %}" class="btn-voltar"
+        style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.6rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; position: absolute; top: 1rem; right: 1rem;">
+        Voltar
+    </a>
+
+    <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Consultar Evento</h1>
+
+    <form method="GET" action="{% url 'financeiro:consultar_evento' %}">
+        <input type="text" name="q_nome" placeholder="Pesquisar por nome..." value="{{ query_nome|default_if_none:'' }}"
+            style="width: 100%; padding: 1rem; font-size: 1.8rem;">
+        <input type="date" name="q_data" placeholder="Pesquisar por data..." value="{{ query_data|default_if_none:'' }}"
+            style="width: 100%; padding: 1rem; font-size: 1.8rem; margin-top: 1rem;">
+        <button type="submit" style="padding: 1rem 2rem; margin-top: 1rem; font-size: 1.6rem;">Pesquisar</button>
+    </form>
+
+    {% if eventos %}
+    <ul style="margin-top: 2rem; list-style-type: none; padding: 0;">
+        {% for evento in eventos %}
+        <li style="background-color: #f5f5f5; padding: 1rem; margin-bottom: 1rem; font-size: 1.6rem;">
+            <strong>Nome:</strong> {{ evento.nome }}<br>
+            <strong>Data:</strong> {{ evento.data }}<br>
+            <strong>Descrição:</strong> {{ evento.descricao }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p style="margin-top: 2rem; font-size: 1.6rem;">Nenhum evento encontrado.</p>
+    {% endif %}
+</div>
+{% endblock %}
