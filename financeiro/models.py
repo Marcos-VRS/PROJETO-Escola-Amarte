@@ -32,7 +32,6 @@ class Financeiro_Cadastro(models.Model):
     email = models.EmailField(max_length=254, blank=True)
     data_de_criação = models.DateTimeField(default=timezone.now)
     descrição = models.TextField()
-    Foto = models.ImageField(blank=True, upload_to="pictures/%Y/%m")
     categoria = models.ForeignKey(
         Category, on_delete=models.SET_NULL, blank=True, null=True
     )

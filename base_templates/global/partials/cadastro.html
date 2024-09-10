@@ -9,10 +9,7 @@
             style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1.3rem 2.6rem; font-size: 2.34rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.95rem;">
             Criar
         </a>
-        <a href="#" class="cadastro-button"
-            style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1.3rem 2.6rem; font-size: 2.34rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.95rem;">
-            Atualizar
-        </a>
+
     </div>
 </div>
 
@@ -44,7 +41,13 @@
             <tbody>
                 {% for resultado in resultados %}
                 <tr>
-                    <td>{{ resultado.nome }}</td>
+                    <!-- O nome do cadastro agora será um link -->
+                    <td>
+                        <a href="{% url 'financeiro:atualizar_cadastro' resultado.id %}"
+                            style="text-decoration: none; color: var(--primary-color);">
+                            {{ resultado.nome }}
+                        </a>
+                    </td>
                     <td>{{ resultado.telefone }}</td>
                     <td>{{ resultado.categoria }}</td>
                 </tr>

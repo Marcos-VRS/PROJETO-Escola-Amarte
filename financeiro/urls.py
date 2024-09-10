@@ -1,5 +1,7 @@
-from financeiro import views
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
+from financeiro import views
 
 app_name = "financeiro"
 
@@ -19,4 +21,9 @@ urlpatterns = [
     # CRUD
     path("cadastro/criar/", views.cadastro.criar_cadastro_view, name="criar_cadastro"),
     path("pesquisar/", views.cadastro.pesquisar_cadastro, name="pesquisar_cadastro"),
-]
+    path(
+        "atualizar/<int:id>/",
+        views.cadastro.atualizar_cadastro_view,
+        name="atualizar_cadastro",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@ import re
 
 
 class FinanceiroCadastroForm(forms.ModelForm):
+
     class Meta:
         model = Financeiro_Cadastro
         fields = [
@@ -11,7 +12,6 @@ class FinanceiroCadastroForm(forms.ModelForm):
             "telefone",
             "email",
             "descrição",
-            "Foto",
             "categoria",
             "cpf_cnpj_tipo",
             "cpf_cnpj_numero",
@@ -21,7 +21,6 @@ class FinanceiroCadastroForm(forms.ModelForm):
             "telefone": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "descrição": forms.Textarea(attrs={"class": "form-control"}),
-            "Foto": forms.FileInput(attrs={"class": "form-control-file"}),
             "categoria": forms.Select(attrs={"class": "form-control"}),
             "cpf_cnpj_tipo": forms.Select(attrs={"class": "form-control"}),
             "cpf_cnpj_numero": forms.TextInput(attrs={"class": "form-control"}),
