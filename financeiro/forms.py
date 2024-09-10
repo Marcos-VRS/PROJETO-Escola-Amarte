@@ -1,9 +1,24 @@
 from django import forms
-from .models import Financeiro_Cadastro
+from .models import Financeiro_Cadastro, Evento
 import re
 
 
 class FinanceiroCadastroForm(forms.ModelForm):
+
+    class Meta:
+        model = Evento
+        fields = ["nome", "data", "hora", "descrição"]
+        widgets = {
+            "nome": forms.TextInput(attrs={"class": "form-control"}),
+            "data": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "hora": forms.TimeInput(attrs={"class": "form-control", "type": "time"}),
+            "descrição": forms.Textarea(attrs={"class": "form-control"}),
+            "professores": forms.Textarea(attrs={"class": "form-control"}),
+            "alunos": forms.Textarea(attrs={"class": "form-control"}),
+        }
+
+
+class EventoForm(forms.ModelForm):
 
     class Meta:
         model = Financeiro_Cadastro

@@ -105,3 +105,24 @@ class Financeiro_Cadastro(models.Model):
             return str(digito1) + str(digito2)
 
         return cnpj[-2:] == calcular_digitos(cnpj)
+
+
+class Evento(models.Model):
+    class Meta:
+        verbose_name = "Evento"
+        verbose_name_plural = "Eventos"
+
+    nome = models.CharField(max_length=100)  # Nome do evento
+    data = models.DateField()  # Data do evento
+    hora = models.TimeField()  # Hora do evento
+    descrição = models.TextField()  # Descrição do evento
+
+    professores = models.ManyToManyField(
+        "Financeiro_Cadastro", related_name="eventos_professores"
+    )  # ForeignKey para professores
+    alunos = models.ManyToManyField(
+        "Financeiro_Cadastro", related_name="eventos_alunos"
+    )  # ForeignKey para alunos
+
+    def __str__(self):
+        return f"{self.nome} - {self.data} {self.hora}"
