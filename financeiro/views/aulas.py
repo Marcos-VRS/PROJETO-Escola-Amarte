@@ -96,7 +96,12 @@ def buscar_participantes(request):
             print(f"achei a categoria {categoria_nome}")
             participantes = Financeiro_Cadastro.objects.filter(categoria=categoria)
             participantes_data = [
-                {"id": p.id, "nome": p.nome, "categoria": categoria_nome}
+                {
+                    "id": p.id,
+                    "nome": p.nome,
+                    "cpf": p.cpf_cnpj_numero,
+                    "categoria": categoria_nome,
+                }
                 for p in participantes
             ]
             return JsonResponse({"participantes": participantes_data})
