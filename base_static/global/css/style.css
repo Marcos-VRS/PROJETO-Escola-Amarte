@@ -629,3 +629,100 @@ a {
     top: 1rem;
     right: 1rem;
 }
+
+
+.participant {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.participant:hover {
+    background-color: white;
+    color: black;
+}
+
+.remove-participant-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3rem;
+    /* Ajuste conforme necessário */
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: red;
+    font-size: 2.5rem;
+    /* Aumente o tamanho do X */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.remove-participant-btn:hover {
+    color: darkred;
+    /* Cor ao passar o mouse, se desejar */
+}
+
+/* Adiciona ao seu CSS */
+label {
+    font-size: 2rem;
+    /* Aumenta o tamanho da fonte dos labels */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+select {
+    font-size: 1.6rem;
+    /* Aumenta o tamanho da fonte das caixas de texto e selects */
+    padding: 1rem;
+    /* Aumenta o padding */
+    border-radius: 0.5rem;
+    /* Arredonda as bordas */
+    border: 2px solid var(--white-color);
+    /* Adiciona borda branca */
+    background-color: var(--white-color);
+    /* Define o fundo branco */
+    width: 100%;
+    /* Faz com que a largura seja 100% do contêiner pai */
+    box-sizing: border-box;
+    /* Inclui padding e border no cálculo da largura */
+    margin-bottom: 1.5rem;
+    /* Adiciona margem inferior */
+}
+
+input[type="submit"],
+button {
+    font-size: 1.8rem;
+    /* Aumenta o tamanho da fonte dos botões */
+    padding: 1rem 2rem;
+    /* Aumenta o padding */
+    border-radius: 0.5rem;
+    /* Arredonda as bordas dos botões */
+    border: 2px solid var(--white-color);
+    /* Adiciona borda branca aos botões */
+    background-color: var(--primary-color);
+    /* Define a cor de fundo dos botões */
+    color: var(--white-color);
+    /* Define a cor do texto dos botões */
+    cursor: pointer;
+    /* Adiciona um cursor pointer para indicar que é clicável */
+    transition: background-color 0.3s ease;
+    /* Transição suave na cor de fundo */
+}
+
+/* Adiciona estilos para as mensagens de erro */
+.error-message {
+    color: var(--white-color);
+    background-color: #dc3545;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
