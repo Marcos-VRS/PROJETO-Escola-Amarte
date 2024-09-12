@@ -134,6 +134,7 @@ class Evento(models.Model):
     hora = models.TimeField()
     descricao = models.TextField()
     participantes = models.ManyToManyField(Participante, blank=True)
+    participantes_selecionados = models.JSONField(default=dict, blank=True)
 
     # outros campos e métodos
 

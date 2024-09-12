@@ -36,7 +36,7 @@ def criar_evento(request):
                 participante = Participante.objects.get(id=participante_id)
                 evento.participantes.add(participante)
             evento.save()
-            return redirect("calendario:calendario")
+            return redirect("financeiro:pesquisar_cadastro")
     else:
         form = EventoForm()
 
