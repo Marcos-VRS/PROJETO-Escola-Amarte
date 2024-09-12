@@ -62,6 +62,9 @@
             <!-- Dropdowns serão adicionados aqui pelo JavaScript -->
         </div>
 
+        <!-- Campo oculto para participantes selecionados -->
+        <input type="hidden" id="participantes-selecionados" name="participantes_selecionados">
+
         <div style="margin-top: 2rem;">
             <button type="submit"
                 style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
@@ -74,6 +77,7 @@
 <script>
     document.getElementById('add-participant-btn').addEventListener('click', function () {
         const container = document.getElementById('participants-container');
+        const participantesSelecionados = [];
 
         // Criação do dropdown de categorias
         const categoryDropdown = document.createElement('select');
@@ -130,6 +134,7 @@
                                 const option = document.createElement('option');
                                 option.value = participante.id;
                                 option.textContent = participante.nome;
+                                option.setAttribute('data-cpf', participante.cpf); // Adiciona o CPF ao atributo
                                 option.setAttribute('data-categoria', participante.categoria); // Adiciona a categoria ao atributo
                                 participantDropdown.appendChild(option);
                             });
@@ -160,9 +165,12 @@
         addButton.addEventListener('click', function () {
             const selectedOption = participantDropdown.options[participantDropdown.selectedIndex];
             if (selectedOption.value) {
-                const participanteId = selectedOption.value;
-                const participanteNome = selectedOption.textContent;
-                const categoria = selectedOption.getAttribute('data-categoria'); // Obtém a categoria
+                const participante = {
+                    id: selectedOption.value,
+                    nome: selectedOption.textContent,
+                    cpf: selectedOption.getAttribute('data-cpf'), // Obtém o CPF
+                    categoria: selectedOption.getAttribute('data-categoria') // Obtém a categoria
+                };
 
                 const div = document.createElement('div');
                 div.className = 'participant';
@@ -173,21 +181,47 @@
                 div.style.position = 'relative'; // Necessário para posicionar o botão de remoção
                 div.style.transition = 'background-color 0.3s ease, color 0.3s ease'; // Transição para mudança de cor
                 div.innerHTML = `
-                    <label>${participanteNome} (${categoria})</label>
-                    <input type="hidden" name="participantes[]" value="${participanteId}">
-                    <button type="button" class="remove-participant"
-                        style="position: absolute; top: 0.6rem; right: 0; background-color: #dc3545; color: var(--white-color); border: none; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer;">
+                    <span>${participante.nome} (${participante.categoria})</span>
+                    <button type="button" class="remove-participant-btn"
+                        style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: var(--danger-color); color: var(--white-color); border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
                         X
                     </button>
                 `;
-                div.querySelector('.remove-participant').addEventListener('click', function () {
-                    div.remove();
+
+                div.querySelector('.remove-participant-btn').addEventListener('click', function () {
+                    container.removeChild(div);
+                    updateHiddenInput();
                 });
+
+                div.addEventListener('mouseenter', function () {
+                    this.style.backgroundColor = 'white';
+                    this.style.color = 'black';
+                });
+
+                div.addEventListener('mouseleave', function () {
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                });
+
                 container.appendChild(div);
+                participantesSelecionados.push(participante);
+                updateHiddenInput();
             }
         });
 
         container.appendChild(addButton);
+
+        function updateHiddenInput() {
+            const hiddenInput = document.getElementById('participantes-selecionados');
+            const participantes = participantesSelecionados.map(p => ({
+                id: p.id,
+                nome: p.nome,
+                cpf: p.cpf,
+                categoria: p.categoria
+            }));
+            hiddenInput.value = JSON.stringify(participantes);  // Armazene o dicionário como JSON
+        }
     });
+
 </script>
 {% endblock %}

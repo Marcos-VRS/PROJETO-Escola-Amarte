@@ -5,6 +5,7 @@ from ..forms import EventoForm
 from datetime import datetime
 from django.utils.dateparse import parse_date
 from django.http import JsonResponse
+import json
 
 
 @login_required(login_url="financeiro:tela_login")
@@ -27,16 +28,22 @@ def criar_evento(request):
         form = EventoForm(request.POST)
         if form.is_valid():
             evento = form.save(commit=False)
-            # Adicionar lógica para salvar participantes, se necessário
-            participantes_data = request.POST.getlist(
-                "participantes"
-            )  # Supondo que você está enviando IDs dos participantes
-            evento.save()
-            for participante_id in participantes_data:
-                participante = Participante.objects.get(id=participante_id)
-                evento.participantes.add(participante)
-            evento.save()
-            return redirect("financeiro:pesquisar_cadastro")
+            participantes_data = request.POST.get("participantes_selecionados")
+
+            if participantes_data:
+                try:
+                    participantes = json.loads(
+                        participantes_data
+                    )  # Converte a string JSON em uma lista de dicionários
+                    evento.participantes_selecionados = (
+                        participantes  # Salva a lista como JSON no modelo
+                    )
+                    evento.save()  # Salvar o evento após adicionar participantes
+                except json.JSONDecodeError:
+                    # Opcional: lidar com o erro se a decodificação JSON falhar
+                    pass
+
+            return redirect("financeiro:aulas")
     else:
         form = EventoForm()
 
