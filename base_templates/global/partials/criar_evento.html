@@ -32,7 +32,7 @@
         <div style="width: 100%; max-width: 600px;">
             {% for field in form %}
             <div class="form-group" style="margin-bottom: 1.5rem;">
-                <label for="{{ field.id_for_label }}"
+                <label for="{{ field.id_for_label }} "
                     style="display: block; font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
                     {{ field.label_tag }}
                 </label>
@@ -49,54 +49,122 @@
             {% endfor %}
         </div>
 
-        <button type="submit"
-            style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
-            Salvar
-        </button>
+        <!-- Botão para adicionar participantes -->
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <button id="add-participant-btn" type="button"
+                style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
+                Adicionar Participante
+            </button>
+        </div>
+
+        <!-- Área onde os participantes serão adicionados -->
+        <div id="participants-container" style="width: 100%; max-width: 600px;">
+            <!-- Dropdowns serão adicionados aqui pelo JavaScript -->
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <button type="submit"
+                style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
+                Salvar Evento
+            </button>
+        </div>
     </form>
 </div>
 
-<style>
-    .evento-button:hover {
-        background-color: #3a003a;
-        transform: scale(1.3);
-    }
+<script>
+    document.getElementById('add-participant-btn').addEventListener('click', function () {
+        const container = document.getElementById('participants-container');
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        padding: 0.8rem;
-        font-size: 1.6rem;
-        color: #000000;
-        background-color: #ffffff;
-        border: 1px solid var(--white-color);
-        border-radius: 0.5rem;
-        transition: background-color 0.3s ease;
-    }
+        // Criação do dropdown de categorias
+        const categoryDropdown = document.createElement('select');
+        categoryDropdown.id = 'category-dropdown';
+        categoryDropdown.innerHTML = '<option value="">Selecione uma categoria</option>';
 
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        background-color: #ffffff;
-        border-color: var(--primary-color);
-    }
+        // Adicionando opções de categorias
+        fetch("{% url 'financeiro:buscar_categorias' %}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.categorias.length > 0) {
+                    data.categorias.forEach(categoria => {
+                        const option = document.createElement('option');
+                        option.value = categoria.nome;
+                        option.textContent = categoria.nome;
+                        categoryDropdown.appendChild(option);
+                    });
+                }
+            });
 
-    .form-group select {
-        background-color: #ffffff;
-        color: #000000;
-        border: 1px solid var(--white-color);
-    }
+        container.innerHTML = '';  // Limpar o container
+        container.appendChild(categoryDropdown);
 
-    .form-group select option {
-        background-color: #ffffff;
-        color: #000000;
-    }
+        // Criação do dropdown de participantes
+        const participantDropdown = document.createElement('select');
+        participantDropdown.id = 'participant-dropdown';
+        participantDropdown.disabled = true;
+        participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
 
-    .form-group select:focus option {
-        background-color: #ffffff;
-        color: #000000;
-    }
-</style>
+        // Adicionando o dropdown de participantes ao container
+        container.appendChild(participantDropdown);
 
+        // Adiciona um evento de mudança ao dropdown de categorias
+        categoryDropdown.addEventListener('change', function () {
+            const categoria = this.value;
+            if (categoria) {
+                fetch("{% url 'financeiro:buscar_participantes' %}?categoria=" + encodeURIComponent(categoria))
+                    .then(response => response.json())
+                    .then(data => {
+                        participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
+                        participantDropdown.disabled = false;
+                        if (data.participantes.length > 0) {
+                            data.participantes.forEach(participante => {
+                                const option = document.createElement('option');
+                                option.value = participante.id;
+                                option.textContent = participante.nome;
+                                option.setAttribute('data-categoria', participante.categoria); // Adiciona a categoria ao atributo
+                                participantDropdown.appendChild(option);
+                            });
+                        } else {
+                            participantDropdown.innerHTML = '<option value="">Nenhum participante encontrado.</option>';
+                            participantDropdown.disabled = true;
+                        }
+                    });
+            } else {
+                participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
+                participantDropdown.disabled = true;
+            }
+        });
+
+        // Adiciona um botão para adicionar o participante selecionado
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Adicionar';
+        addButton.type = 'button';
+        addButton.style.backgroundColor = 'var(--primary-color)';
+        addButton.style.color = 'var(--white-color)';
+        addButton.style.padding = '1rem 2rem';
+        addButton.style.fontSize = '1.8rem';
+        addButton.style.borderRadius = '0.5rem';
+        addButton.style.border = '2px solid var(--white-color)';
+        addButton.style.cursor = 'pointer';
+        addButton.style.transition = 'background-color 0.3s ease';
+
+        addButton.addEventListener('click', function () {
+            const selectedOption = participantDropdown.options[participantDropdown.selectedIndex];
+            if (selectedOption.value) {
+                const participanteId = selectedOption.value;
+                const participanteNome = selectedOption.textContent;
+                const categoria = selectedOption.getAttribute('data-categoria'); // Obtém a categoria
+
+                const div = document.createElement('div');
+                div.className = 'participant';
+                div.innerHTML = `
+                    <label>${participanteNome} (${categoria})</label>
+                    <input type="hidden" name="participantes[]" value="${participanteId}">
+                `;
+                container.appendChild(div);
+            }
+        });
+
+        container.appendChild(addButton);
+    });
+</script>
 {% endblock %}

@@ -3,9 +3,8 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 import re
 
-# Create your models here.
 
-
+# Modelo para Categoria
 class Category(models.Model):
     class Meta:
         verbose_name = "Categoria"
@@ -17,6 +16,7 @@ class Category(models.Model):
         return f"{self.name}"
 
 
+# Modelo para Cadastro Financeiro
 class Financeiro_Cadastro(models.Model):
     class Meta:
         verbose_name = "Cadastro"
@@ -41,7 +41,7 @@ class Financeiro_Cadastro(models.Model):
     cpf_cnpj_numero = models.CharField(max_length=20, blank=False)
 
     def __str__(self) -> str:
-        return f"{self.nome} "
+        return f"{self.nome}"
 
     def clean(self):
         super().clean()
@@ -55,18 +55,14 @@ class Financeiro_Cadastro(models.Model):
                 raise ValidationError("Número de CNPJ inválido.")
 
     def validar_email(self, email):
-        # Expressão regular para verificar o formato do e-mail
         regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         return re.match(regex, email) is not None
 
     def validar_cpf(self, cpf):
-        # Remove caracteres não numéricos
         cpf = re.sub(r"\D", "", cpf)
-        # Verifica se o CPF possui 11 dígitos
         if len(cpf) != 11 or cpf == cpf[0] * 11:
             return False
 
-        # Valida os dígitos verificadores
         def calcular_digitos(cpf):
             soma = 0
             for i in range(9):
@@ -83,13 +79,10 @@ class Financeiro_Cadastro(models.Model):
         return cpf[-2:] == calcular_digitos(cpf)
 
     def validar_cnpj(self, cnpj):
-        # Remove caracteres não numéricos
         cnpj = re.sub(r"\D", "", cnpj)
-        # Verifica se o CNPJ possui 14 dígitos
         if len(cnpj) != 14 or cnpj == cnpj[0] * 14:
             return False
 
-        # Valida os dígitos verificadores
         def calcular_digitos(cnpj):
             def soma_digitos(cnpj, pesos):
                 return sum(int(cnpj[i]) * pesos[i] for i in range(len(pesos)))
@@ -107,24 +100,42 @@ class Financeiro_Cadastro(models.Model):
         return cnpj[-2:] == calcular_digitos(cnpj)
 
 
-class Evento(models.Model):
+# Modelo para Participante
+class Participante(models.Model):
     class Meta:
-        verbose_name = "Evento"
-        verbose_name_plural = "Eventos"
+        verbose_name = "Participante"
+        verbose_name_plural = "Participantes"
 
-    nome = models.CharField(max_length=100)  # Nome do evento
-    data = models.DateField()  # Data do evento
-    hora = models.TimeField()  # Hora do evento
-    descrição = models.TextField()  # Descrição do evento
+    CATEGORIA_CHOICES = [
+        ("professores", "Professores"),
+        ("alunos", "Alunos"),
+        ("fornecedores", "Fornecedores"),
+        ("outros", "Outros"),
+    ]
 
-    professores = models.ManyToManyField(
-        "Financeiro_Cadastro",
-        related_name="eventos_professores",
-        verbose_name="professores",
-    )  # ForeignKey para professores
-    alunos = models.ManyToManyField(
-        "Financeiro_Cadastro", related_name="eventos_alunos", verbose_name="alunos"
-    )  # ForeignKey para alunos
+    categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
+    nome = models.CharField(max_length=50)
+    cpf = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.nome} - {self.data} {self.hora}"
+        return f"{self.nome} ({self.cpf})"
+
+    @staticmethod
+    def buscar_por_categoria(categoria):
+        return Financeiro_Cadastro.objects.filter(categoria__name=categoria).values(
+            "nome", "cpf_cnpj_numero"
+        )
+
+
+# modelo Evento
+class Evento(models.Model):
+    nome = models.CharField(max_length=100)
+    data = models.DateTimeField()
+    hora = models.TimeField()
+    descricao = models.TextField()
+    participantes = models.ManyToManyField(Participante, blank=True)
+
+    # outros campos e métodos
+
+    def __str__(self):
+        return self.nome

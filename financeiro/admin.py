@@ -1,5 +1,5 @@
 from django.contrib import admin
-from financeiro.models import Financeiro_Cadastro, Category, Evento
+from financeiro.models import Financeiro_Cadastro, Category, Evento, Participante
 
 
 @admin.register(Financeiro_Cadastro)
@@ -17,7 +17,7 @@ class FinanceiroCadastroAdmin(admin.ModelAdmin):
     search_fields = (
         "id",
         "nome",
-        "categoria",
+        "categoria__name",  # Pesquisa pelo nome da categoria
     )
     list_per_page = 50
     list_max_show_all = 200
@@ -25,9 +25,7 @@ class FinanceiroCadastroAdmin(admin.ModelAdmin):
         "id",
         "nome",
     )
-
-    # Adiciona autocomplete para campos de busca
-    search_fields = ("nome", "cpf")
+    search_fields = ("nome", "cpf_cnpj_numero")  # Corrigido o campo "cpf"
 
 
 @admin.register(Category)
@@ -36,20 +34,24 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ("-id",)
 
 
+@admin.register(Participante)
+class ParticipanteAdmin(admin.ModelAdmin):
+    list_display = ("nome", "cpf", "categoria")  # Corrigido para corresponder ao modelo
+    search_fields = ("nome", "cpf", "categoria")
+
+
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
     list_display = (
         "nome",
         "data",
-        "hora",
-        "descrição",
+        "descricao",  # Corrigido o nome do campo para 'descricao'
     )
-    search_fields = ("nome", "descrição")
-    filter_horizontal = (
-        "professores",
-        "alunos",
-    )
-    list_filter = ("data", "hora")
+    search_fields = ("nome", "descricao")
+    list_filter = ("data",)
+
+    # Se você tiver campos ManyToMany ou ForeignKey, use autocomplete_fields para eles
+    # autocomplete_fields = ("participantes",)
 
     # Adiciona autocomplete para campos ManyToMany
-    autocomplete_fields = ("professores", "alunos")
+    autocomplete_fields = ("participantes",)

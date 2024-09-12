@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
-from ..models import Evento
 from django.contrib.auth.decorators import login_required
+from ..models import Evento, Participante, Financeiro_Cadastro, Category
 from ..forms import EventoForm
 from datetime import datetime
-from django.utils.dateparse import parse_date  # Para converter string em objeto de data
+from django.utils.dateparse import parse_date
+from django.http import JsonResponse
 
 
 @login_required(login_url="financeiro:tela_login")
 def calendario_view(request):
-    username = request.user.username  # Obtém o nome de usuário do request
+    username = request.user.username
     hoje = datetime.now().date()
     eventos = Evento.objects.all()
 
@@ -21,11 +22,20 @@ def calendario_view(request):
 
 @login_required(login_url="financeiro:tela_login")
 def criar_evento(request):
-    username = request.user.username  # Obtém o nome de usuário do request
+    username = request.user.username
     if request.method == "POST":
         form = EventoForm(request.POST)
         if form.is_valid():
-            form.save()
+            evento = form.save(commit=False)
+            # Adicionar lógica para salvar participantes, se necessário
+            participantes_data = request.POST.getlist(
+                "participantes"
+            )  # Supondo que você está enviando IDs dos participantes
+            evento.save()
+            for participante_id in participantes_data:
+                participante = Participante.objects.get(id=participante_id)
+                evento.participantes.add(participante)
+            evento.save()
             return redirect("calendario:calendario")
     else:
         form = EventoForm()
@@ -39,24 +49,20 @@ def criar_evento(request):
 
 @login_required(login_url="financeiro:tela_login")
 def consultar_evento(request):
-    username = request.user.username  # Obtém o nome de usuário do request
-    query_nome = request.GET.get("nome")  # Pesquisa por nome
-    query_data = request.GET.get("data")  # Pesquisa por data
-    eventos = Evento.objects.all()  # Começa com todos os eventos
+    username = request.user.username
+    query_nome = request.GET.get("nome")
+    query_data = request.GET.get("data")
+    eventos = Evento.objects.all()
 
-    # Filtro por nome, se fornecido
     if query_nome:
         eventos = eventos.filter(nome__icontains=query_nome)
 
-    # Filtro por data, se fornecido e válido
     if query_data:
         try:
-            # Tenta converter a string da data para um objeto datetime.date
             data_obj = parse_date(query_data)
             if data_obj:
                 eventos = eventos.filter(data=data_obj)
         except ValueError:
-            # Se a data for inválida, você pode tratar o erro ou ignorar
             pass
 
     context = {
@@ -71,3 +77,37 @@ def consultar_evento(request):
         "global/partials/consultar_evento.html",
         context,
     )
+
+
+@login_required(login_url="financeiro:tela_login")
+def buscar_participantes(request):
+    categoria_nome = request.GET.get("categoria")
+    print(f"Categoria recebida: {categoria_nome}")
+    if categoria_nome:
+        try:
+            categoria = Category.objects.get(name=categoria_nome)
+            print(f"achei a categoria {categoria_nome}")
+            participantes = Financeiro_Cadastro.objects.filter(categoria=categoria)
+            participantes_data = [
+                {"id": p.id, "nome": p.nome, "categoria": categoria_nome}
+                for p in participantes
+            ]
+            return JsonResponse({"participantes": participantes_data})
+        except Category.DoesNotExist:
+            print("não encontrei a categoria {categoria_nome}")
+            return JsonResponse({"error": "Categoria não encontrada"}, status=404)
+    else:
+        return JsonResponse({"error": "Categoria não informada"}, status=400)
+
+
+@login_required(login_url="financeiro:tela_login")
+def listar_categorias(request):
+    categorias = Category.objects.values_list("name", flat=True)
+    return JsonResponse({"categorias": categorias})
+
+
+@login_required(login_url="financeiro:tela_login")
+def buscar_categorias(request):
+    categorias = Category.objects.all()
+    categorias_data = [{"nome": c.name} for c in categorias]
+    return JsonResponse({"categorias": categorias_data})
