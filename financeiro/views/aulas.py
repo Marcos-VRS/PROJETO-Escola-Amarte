@@ -30,7 +30,11 @@ def criar_evento(request):
     else:
         form = EventoForm()
 
-    return render(request, "criar_evento.html", {"form": form, "username": username})
+    return render(
+        request,
+        "global/partials/criar_evento.html",
+        {"form": form, "username": username},
+    )
 
 
 @login_required(login_url="financeiro:tela_login")

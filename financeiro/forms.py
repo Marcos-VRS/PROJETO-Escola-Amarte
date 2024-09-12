@@ -15,6 +15,8 @@ class EventoForm(forms.ModelForm):
             "descrição": forms.Textarea(attrs={"class": "form-control"}),
             "professores": forms.Textarea(attrs={"class": "form-control"}),
             "alunos": forms.Textarea(attrs={"class": "form-control"}),
+            "fornecedores": forms.Textarea(attrs={"class": "form-control"}),
+            "outro": forms.Textarea(attrs={"class": "form-control"}),
         }
 
 
