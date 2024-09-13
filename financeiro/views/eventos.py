@@ -57,25 +57,36 @@ def criar_evento(request):
 @login_required(login_url="financeiro:tela_login")
 def consultar_evento(request):
     username = request.user.username
-    query_nome = request.GET.get("nome")
-    query_data = request.GET.get("data")
+    query_nome = request.GET.get("nome", "")
+    query_data = request.GET.get("data", "")
+    query_participante = request.GET.get("participante", "")
     eventos = Evento.objects.all()
 
+    # Filtrar por nome do evento
     if query_nome:
         eventos = eventos.filter(nome__icontains=query_nome)
 
+    # Filtrar por data do evento
     if query_data:
         try:
+            # Certifique-se de que o campo de data está no formato correto
             data_obj = parse_date(query_data)
             if data_obj:
                 eventos = eventos.filter(data=data_obj)
         except ValueError:
             pass
 
+    # Filtrar por participante
+    if query_participante:
+        eventos = eventos.filter(
+            participantes_selecionados__icontains=query_participante
+        )
+
     context = {
         "eventos": eventos,
         "query_nome": query_nome,
         "query_data": query_data,
+        "query_participante": query_participante,
         "username": username,
     }
 
