@@ -43,7 +43,7 @@ def criar_evento(request):
                     # Opcional: lidar com o erro se a decodificação JSON falhar
                     pass
 
-            return redirect("financeiro:aulas")
+            return redirect("financeiro:eventos")
     else:
         form = EventoForm()
 

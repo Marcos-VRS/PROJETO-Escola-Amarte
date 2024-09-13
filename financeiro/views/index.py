@@ -31,9 +31,9 @@ def transacoes(request):
 
 
 @login_required(login_url="financeiro:tela_login")
-def aulas(request):
+def eventos(request):
     return render(
-        request, "global/partials/aulas.html", {"username": request.user.username}
+        request, "global/partials/eventos.html", {"username": request.user.username}
     )
 
 

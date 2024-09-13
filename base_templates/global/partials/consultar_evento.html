@@ -3,34 +3,108 @@
 {% block content %}
 <div class="evento-search">
     <!-- Botão para voltar para a tela anterior, posicionado no canto superior direito -->
-    <a href="{% url 'financeiro:aulas' %}" class="btn-voltar"
+    <a href="{% url 'financeiro:eventos' %}" class="btn-voltar"
         style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.6rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; position: absolute; top: 1rem; right: 1rem;">
         Voltar
     </a>
 
     <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Consultar Evento</h1>
 
-    <form method="GET" action="{% url 'financeiro:consultar_evento' %}">
+    <form method="GET" action="{% url 'financeiro:consultar_evento' %}"
+        style="display: flex; justify-content: center; margin-bottom: 2rem;">
         <input type="text" name="q_nome" placeholder="Pesquisar por nome..." value="{{ query_nome|default_if_none:'' }}"
-            style="width: 100%; padding: 1rem; font-size: 1.8rem;">
+            style="padding: 1.04rem; font-size: 2.08rem; border: 1px solid var(--white-color); border-radius: 0.5rem; margin-right: 1.3rem;">
         <input type="date" name="q_data" placeholder="Pesquisar por data..." value="{{ query_data|default_if_none:'' }}"
-            style="width: 100%; padding: 1rem; font-size: 1.8rem; margin-top: 1rem;">
-        <button type="submit" style="padding: 1rem 2rem; margin-top: 1rem; font-size: 1.6rem;">Pesquisar</button>
+            style="padding: 1.04rem; font-size: 2.08rem; border: 1px solid var(--white-color); border-radius: 0.5rem; margin-right: 1.3rem;">
+        <button type="submit"
+            style="background-color: var(--primary-color); color: var(--white-color); padding: 1.04rem 2.08rem; font-size: 2.08rem; border-radius: 0.5rem; border: 1px solid var(--white-color); cursor: pointer;">
+            Buscar
+        </button>
     </form>
 
     {% if eventos %}
-    <ul style="margin-top: 2rem; list-style-type: none; padding: 0;">
-        {% for evento in eventos %}
-        <li style=" padding: 1rem; margin-bottom: 1rem; font-size: 1.6rem;">
-            <strong>Nome:</strong> {{ evento.nome }}<br>
-            <strong>Data:</strong> {{ evento.data }}<br>
-            <strong>Descrição:</strong> {{ evento.descricao }}
-            <strong>Participantes:</strong> {{ evento.participantes_selecionados }}
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="results-table" style="margin-top: 2rem;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Evento</th>
+                    <th>Data</th>
+                    <th>Participantes</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for evento in eventos %}
+                <tr>
+                    <td>{{ evento.nome }}</td>
+                    <td>{{ evento.data }}</td>
+                    <td>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            {% for participante in evento.participantes_selecionados %}
+                            <li>{{ participante.nome }} ({{ participante.categoria }})</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ evento.descricao }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
     <p style="margin-top: 2rem; font-size: 1.6rem;">Nenhum evento encontrado.</p>
     {% endif %}
 </div>
+
+<style>
+    .results-table {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.69rem;
+        overflow-x: auto;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .results-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .results-table th,
+    .results-table td {
+        border: 1px solid #ddd;
+        padding: 1.35rem;
+        color: #000000;
+        font-size: 1.52rem;
+    }
+
+    .results-table th {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .results-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .results-table tbody tr:hover {
+        background-color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+        .results-table {
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .results-table table {
+            width: 100%;
+            min-width: 800px;
+        }
+    }
+</style>
 {% endblock %}

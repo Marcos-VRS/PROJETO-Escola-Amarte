@@ -13,7 +13,7 @@ urlpatterns = [
     path("index/", views.index.index_financeiro, name="index"),
     path("dashboard/", views.index.dashboard, name="dashboard"),
     path("transacoes/", views.index.transacoes, name="transacoes"),
-    path("aulas/", views.index.aulas, name="aulas"),
+    path("eventos/", views.index.eventos, name="eventos"),
     path("cadastro/", views.index.cadastro, name="cadastro"),
     path("fiscal/", views.index.fiscal, name="fiscal"),
     path("metas/", views.index.metas, name="metas"),
@@ -27,12 +27,14 @@ urlpatterns = [
         name="atualizar_cadastro",
     ),
     # Aulas
-    path("criar_evento/", views.aulas.criar_evento, name="criar_evento"),
-    path("evento/consultar/", views.aulas.consultar_evento, name="consultar_evento"),
+    path("criar_evento/", views.eventos.criar_evento, name="criar_evento"),
+    path("evento/consultar/", views.eventos.consultar_evento, name="consultar_evento"),
     path(
         "buscar_participantes/",
-        views.aulas.buscar_participantes,
+        views.eventos.buscar_participantes,
         name="buscar_participantes",
     ),
-    path("buscar-categorias/", views.aulas.buscar_categorias, name="buscar_categorias"),
+    path(
+        "buscar-categorias/", views.eventos.buscar_categorias, name="buscar_categorias"
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
