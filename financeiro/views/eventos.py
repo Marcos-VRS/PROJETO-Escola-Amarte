@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import Evento, Participante, Financeiro_Cadastro, Category
 from ..forms import EventoForm
@@ -134,3 +134,23 @@ def buscar_categorias(request):
     categorias = Category.objects.all()
     categorias_data = [{"nome": c.name} for c in categorias]
     return JsonResponse({"categorias": categorias_data})
+
+
+@login_required(login_url="financeiro:tela_login")
+def atualizar_evento(request, id):
+    username = request.user.username
+    evento = get_object_or_404(Evento, id=id)
+
+    if request.method == "POST":
+        form = EventoForm(request.POST, instance=evento)
+        if form.is_valid():
+            form.save()
+            return redirect("financeiro:eventos")
+    else:
+        form = EventoForm(instance=evento)
+
+    return render(
+        request,
+        "global/partials/atualizar_evento.html",
+        {"form": form, "evento": evento, "username": username},
+    )

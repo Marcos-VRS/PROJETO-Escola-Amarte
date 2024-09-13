@@ -132,6 +132,7 @@ class Evento(models.Model):
     nome = models.CharField(max_length=100)
     data = models.DateTimeField()
     hora = models.TimeField()
+    duracao = models.CharField(max_length=100)  # Campo para Duração
     descricao = models.TextField()
     participantes = models.ManyToManyField(Participante, blank=True)
     participantes_selecionados = models.JSONField(default=dict, blank=True)

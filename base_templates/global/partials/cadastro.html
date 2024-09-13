@@ -43,8 +43,7 @@
                 <tr>
                     <!-- O nome do cadastro agora será um link -->
                     <td>
-                        <a href="{% url 'financeiro:atualizar_cadastro' resultado.id %}"
-                            style="text-decoration: none; color: var(--primary-color);">
+                        <a href="{% url 'financeiro:atualizar_cadastro' resultado.id %}" class="link-nome">
                             {{ resultado.nome }}
                         </a>
                     </td>
@@ -115,6 +114,16 @@
 
     .results-table tbody tr:hover {
         background-color: #ffffff;
+    }
+
+    .link-nome {
+        color: blue;
+        /* Definindo a cor do link para azul */
+        text-decoration: none;
+    }
+
+    .link-nome:hover {
+        text-decoration: underline;
     }
 
     /* Garantir que a tabela não ultrapasse o tamanho da tela */

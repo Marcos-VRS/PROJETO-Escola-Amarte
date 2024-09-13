@@ -7,7 +7,7 @@
         style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
         <a href="{% url 'financeiro:eventos' %}" class="evento-button"
             style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
-            Pesquisar
+            Calendário
         </a>
     </div>
 </div>
@@ -183,7 +183,7 @@
                 div.innerHTML = `
                     <span>${participante.nome} (${participante.categoria})</span>
                     <button type="button" class="remove-participant-btn"
-                        style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: var(--danger-color); color: var(--white-color); border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                        style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
                         X
                     </button>
                 `;

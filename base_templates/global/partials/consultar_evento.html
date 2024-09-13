@@ -1,67 +1,198 @@
 {% extends "global/index_financeiro.html" %}
 
 {% block content %}
-<div class="evento-actions">
-    <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Consultar Eventos</h1>
+<div style="position: relative;">
+    <!-- Botão de voltar -->
+    <a href="{% url 'financeiro:eventos' %}" class="back-button">
+        Voltar
+    </a>
 
-    <form method="get" action="{% url 'financeiro:consultar_evento' %}" style="margin-bottom: 2rem;">
-        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-            <!-- Campo de busca por nome -->
-            <input type="text" name="nome" placeholder="Pesquisar por Nome" value="{{ query_nome|default_if_none:'' }}"
-                style="padding: 1rem; font-size: 1.4rem; width: 100%; max-width: 300px; margin: 0.5rem;">
+    <div class="evento-actions">
+        <h1 style="text-align: center; font-size: 2.4rem; margin-bottom: 2rem;">Consultar Eventos</h1>
 
-            <!-- Campo de busca por data -->
-            <input type="date" name="data" placeholder="Pesquisar por Data" value="{{ query_data|default_if_none:'' }}"
-                style="padding: 1rem; font-size: 1.4rem; width: 100%; max-width: 300px; margin: 0.5rem;">
+        <!-- Formulário de busca -->
+        <form method="get" action="{% url 'financeiro:consultar_evento' %}" class="search-container">
+            <div class="input-group">
+                <!-- Campo de busca por nome -->
+                <input type="text" name="nome" placeholder="Pesquisar por Nome"
+                    value="{{ query_nome|default_if_none:'' }}" class="search-input">
 
-            <!-- Campo de busca por participante -->
-            <input type="text" name="participante" placeholder="Pesquisar por Participante"
-                value="{{ query_participante|default_if_none:'' }}"
-                style="padding: 1rem; font-size: 1.4rem; width: 100%; max-width: 300px; margin: 0.5rem;">
-        </div>
-        <button type="submit"
-            style="padding: 1rem 2rem; font-size: 1.4rem; background-color: var(--primary-color); color: white; border: none; border-radius: 0.5rem; margin-top: 1rem;">Buscar</button>
-    </form>
+                <!-- Campo de busca por data -->
+                <input type="date" name="data" placeholder="Pesquisar por Data"
+                    value="{{ query_data|default_if_none:'' }}" class="search-input">
 
-    <div>
-        {% if eventos %}
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th style="padding: 1rem; border-bottom: 2px solid var(--primary-color);">Nome</th>
-                    <th style="padding: 1rem; border-bottom: 2px solid var(--primary-color);">Data</th>
-                    <th style="padding: 1rem; border-bottom: 2px solid var(--primary-color);">Participantes</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for evento in eventos %}
-                <tr>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--primary-color);">{{ evento.nome }}</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--primary-color);">{{ evento.data }}</td>
-                    <td style="padding: 1rem; border-bottom: 1px solid var(--primary-color);">
-                        {% for participante in evento.participantes_selecionados %}
-                        {{ participante.nome }} ({{ participante.categoria }}),
+                <!-- Campo de busca por participante -->
+                <input type="text" name="participante" placeholder="Pesquisar por Participante"
+                    value="{{ query_participante|default_if_none:'' }}" class="search-input">
+            </div>
+
+            <!-- Botão de busca -->
+            <button type="submit" class="search-button">Buscar</button>
+        </form>
+
+        <!-- Resultados da busca -->
+        <div class="results-container">
+            {% if eventos %}
+            <div class="results-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data</th>
+                            <th>Participantes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for evento in eventos %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'financeiro:atualizar_evento' evento.id %}" class="event-link">
+                                    {{ evento.nome }}
+                                </a>
+                            </td>
+                            <td>{{ evento.data }}</td>
+                            <td class="participants-cell">
+                                {% for participante in evento.participantes_selecionados %}
+                                {{ participante.nome }} ({{ participante.categoria }}),
+                                {% endfor %}
+                            </td>
+                        </tr>
                         {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>Nenhum evento encontrado.</p>
-        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>Nenhum evento encontrado.</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 
+<!-- CSS -->
 <style>
-    th,
-    td {
-        text-align: left;
-        font-size: 1.4rem;
+    .back-button {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        padding: 0.5rem 1rem;
+        font-size: 1.6rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
     }
 
-    input {
-        margin-bottom: 1rem;
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto 1.5rem auto;
+        gap: 1.3rem;
+    }
+
+    .search-input {
+        padding: 1.04rem;
+        font-size: 2.08rem;
+        border: 1px solid var(--white-color);
+        border-radius: 0.5rem;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .search-button {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        padding: 1.04rem 2.08rem;
+        font-size: 2.08rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--white-color);
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .results-container {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .results-table {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.69rem;
+        overflow-x: auto;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .results-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .results-table th,
+    .results-table td {
+        border: 1px solid #ddd;
+        padding: 1.35rem;
+        font-size: 1.52rem;
+        color: #000000;
+    }
+
+    .results-table th {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .results-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .results-table tbody tr:hover {
+        background-color: #ffffff;
+    }
+
+    .participants-cell {
+        white-space: pre-wrap;
+        /* Permite quebra de linha */
+        word-wrap: break-word;
+        /* Quebra palavras longas se necessário */
+    }
+
+    .event-link {
+        color: blue;
+        /* Definindo a cor do link para azul */
+        text-decoration: none;
+    }
+
+    .event-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .input-group {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .results-table {
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .results-table table {
+            width: 100%;
+            min-width: 800px;
+        }
     }
 </style>
 {% endblock %}

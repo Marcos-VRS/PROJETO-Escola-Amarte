@@ -5,11 +5,14 @@ from .models import Financeiro_Cadastro, Evento
 class EventoForm(forms.ModelForm):
     class Meta:
         model = Evento
-        fields = ["nome", "data", "hora", "descricao"]
+        fields = ["nome", "data", "hora", "duracao", "descricao"]
         widgets = {
             "nome": forms.TextInput(attrs={"class": "form-control"}),
             "data": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
             "hora": forms.TimeInput(attrs={"class": "form-control", "type": "time"}),
+            "duracao": forms.TextInput(
+                attrs={"placeholder": "Duração do evento (ex: 2 horas)"}
+            ),
             "descricao": forms.Textarea(attrs={"class": "form-control"}),
             "professores": forms.Textarea(attrs={"class": "form-control"}),
             "alunos": forms.Textarea(attrs={"class": "form-control"}),
