@@ -1,0 +1,23 @@
+<div class="calendar-month-view">
+    <div class="calendar-body" style="display: flex; flex-wrap: wrap; justify-content: center;">
+        {% for week in calendario.monthdatescalendar(ano, mes) %}
+        <div class="week-row" style="display: flex; margin-bottom: 10px;">
+            {% for day in week %}
+            <div class="calendar-day {% if day == hoje %}today{% endif %}" 
+                 style="width: 14%; padding: 10px; border: 1px solid #ddd; text-align: center; {% if day == hoje %}border: 3px solid red;{% endif %}">
+                <strong>{{ day|date:"D, d M" }}</strong>
+                <div>
+                    {% for evento in eventos %}
+                    {% if evento.data.date == day %}
+                    <div class="event" style="margin-top: 5px; padding: 5px; background-color: #f2f2f2;">
+                        {{ evento.nome }} <!-- Mostra o nome do evento -->
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>

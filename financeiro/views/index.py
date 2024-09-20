@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 @login_required(login_url="financeiro:tela_login")
@@ -32,8 +33,10 @@ def transacoes(request):
 
 @login_required(login_url="financeiro:tela_login")
 def eventos(request):
-    return render(
-        request, "global/partials/eventos.html", {"username": request.user.username}
+    hoje = datetime.now()  # Data atual
+
+    return redirect(
+        "financeiro:calendario_view", periodo="mensal", ano=hoje.year, mes=hoje.month
     )
 
 

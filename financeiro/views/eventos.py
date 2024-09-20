@@ -2,23 +2,58 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import Evento, Participante, Financeiro_Cadastro, Category
 from ..forms import EventoForm
-from datetime import datetime
+from datetime import datetime, timedelta, date
 from django.utils.dateparse import parse_date
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
-import json
+import json, calendar
+from calendar import HTMLCalendar
 
 
 @login_required(login_url="financeiro:tela_login")
-def calendario_view(request):
-    username = request.user.username
-    hoje = datetime.now().date()
-    eventos = Evento.objects.all()
+def calendario_view(request, periodo, ano=None, mes=None):
 
+    username = request.user.username
+    hoje = datetime.now()  # Data atual
+    calendario = HTMLCalendar(firstweekday=0)
+
+    # Usar ano e mês passados na URL ou o mês/ano atuais
+    if ano is None:
+        ano = datetime.now().year
+    if mes is None:
+        mes = datetime.now().month
+    print(mes, ano)
+    # Navegação dos meses. Se estiver em janeiro e
+    # clicar em mês anterior vai para dezsembro do ano passado e etc.
+
+    if mes == 0:
+        mes = 12
+        ano -= 1
+    elif mes == 13:
+        mes = 1
+        ano += 1
+
+    # Consultar os eventos do mês/ano fornecidos
+    eventos = Evento.objects.filter(data__month=mes, data__year=ano)
+
+    # Definindo o template parcial com base no período
+    if periodo == "mensal":
+        partial = "global/partials/calendario_mensal.html"
+
+    elif periodo == "semanal":
+        partial = "global/partials/calendario_semanal.html"
+
+    # Renderizar o template com os dados
     return render(
         request,
-        "calendario.html",
-        {"hoje": hoje, "eventos": eventos, "username": username},
+        "global/partials/eventos.html",
+        {
+            "calendario": calendario,
+            "username": username,
+            "hoje": hoje,
+            "mes": mes,
+            "ano": ano,
+        },
     )
 
 
@@ -155,32 +190,3 @@ def atualizar_evento(request, id):
         "global/partials/atualizar_evento.html",
         {"form": form, "evento": evento, "username": username},
     )
-
-
-def calendario_view(request):
-    partial = request.GET.get("partial")
-    today = timezone.now().date()  # Obtém a data de hoje
-
-    if partial == "calendario_semanal.html":
-        # Calcula o início e o fim da semana atual
-        start_of_week = today - timezone.timedelta(days=today.weekday())
-        end_of_week = start_of_week + timezone.timedelta(days=6)
-
-        # Obtém eventos que ocorrem na semana atual
-        eventos = Evento.objects.filter(data__range=[start_of_week, end_of_week])
-
-        # Cria uma lista de dias da semana para o calendário
-        days = [start_of_week + timezone.timedelta(days=i) for i in range(7)]
-
-        context = {
-            "days": days,
-            "today": today,
-            "eventos": eventos,
-        }
-        return render(request, "global/partials/calendario_semanal.html", context)
-
-    elif partial == "calendario_mensal.html":
-        return render(request, "global/partials/calendario_mensal.html")
-
-    else:
-        return HttpResponse(status=404)

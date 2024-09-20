@@ -42,5 +42,9 @@ urlpatterns = [
     path(
         "buscar-categorias/", views.eventos.buscar_categorias, name="buscar_categorias"
     ),
-    path("eventos/calendario/", views.eventos.calendario_view, name="calendario_view"),
+    path(
+        "calendario/<str:periodo>/<int:ano>/<int:mes>/",
+        views.eventos.calendario_view,
+        name="calendario_view",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
