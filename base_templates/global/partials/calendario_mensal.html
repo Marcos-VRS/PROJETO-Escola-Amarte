@@ -1,23 +1,43 @@
-<div class="calendar-month-view">
-    <div class="calendar-body" style="display: flex; flex-wrap: wrap; justify-content: center;">
-        {% for week in calendario.monthdatescalendar(ano, mes) %}
-        <div class="week-row" style="display: flex; margin-bottom: 10px;">
+<!-- global/partials/calendario_mensal.html -->
+<table class=" calendar main-bg" style="color:var(--white-color);">
+    <thead >
+        {{nome_mes}} / {{ano}}
+        <tr class="dia-da-semana">
+            <th >Domingo</th>
+            <th>Segunda</th>
+            <th>Terça</th>
+            <th>Quarta</th>
+            <th>Quinta</th>
+            <th>Sexta</th>
+            <th>Sábado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in calendario %}
+        <tr>
             {% for day in week %}
-            <div class="calendar-day {% if day == hoje %}today{% endif %}" 
-                 style="width: 14%; padding: 10px; border: 1px solid #ddd; text-align: center; {% if day == hoje %}border: 3px solid red;{% endif %}">
-                <strong>{{ day|date:"D, d M" }}</strong>
-                <div>
-                    {% for evento in eventos %}
-                    {% if evento.data.date == day %}
-                    <div class="event" style="margin-top: 5px; padding: 5px; background-color: #f2f2f2;">
-                        {{ evento.nome }} <!-- Mostra o nome do evento -->
-                    </div>
+            <td class="day-cell" >
+                <!-- Título com o número do dia -->
+                <div class="day-box">
+                    {% if day.numero_dia %}
+                    <h3 >{{ day.numero_dia }}</h3>
+
+                    <!-- Verificação se há eventos -->
+                    {% if day.eventos %}
+                    <ul class="event-list ">
+                        <!-- Lista de eventos do dia -->
+                        {% for evento in day.eventos %}
+                        <li>*{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})<br><br></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>   </p>
                     {% endif %}
-                    {% endfor %}
+                    {% endif %}
                 </div>
-            </div>
+            </td>
             {% endfor %}
-        </div>
+        </tr>
         {% endfor %}
-    </div>
-</div>
+    </tbody>
+</table>

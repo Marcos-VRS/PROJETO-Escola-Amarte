@@ -10,22 +10,144 @@ import json, calendar
 from calendar import HTMLCalendar
 
 
+class MeuCalendario(HTMLCalendar):
+    def __init__(self, eventos):
+        super().__init__()
+        self.eventos = eventos  # Passamos os eventos ao criar a instância do calendário
+
+    def formatday(self, day, weekday):
+        """
+        Customiza a renderização de um dia do calendário.
+        day: o número do dia
+        weekday: o número do dia da semana (segunda, terça, etc.)
+        """
+
+        print(f"Os dia e semana são :{day},{weekday}")
+        if day == 0:
+            # Dias fora do mês
+            return '<td class="noday"></td>'
+
+        # Filtrar eventos do dia atual
+        eventos_do_dia = [
+            evento
+            for evento in self.eventos
+            if evento.data.day == day and evento.data.month == self.current_month
+        ]
+        print(f"Os eventos do dia são : {evento}")
+        # Template de HTML do quadro do dia
+        dia_html = f'<div class="day-box"><h3>{day}</h3>'
+
+        # Adicionar eventos do dia ao quadro
+        if eventos_do_dia:
+            dia_html += "<ul>"
+            for evento in eventos_do_dia:
+                # Usando evento.hora para mostrar a hora
+                dia_html += f'<li>{evento.nome} - {evento.hora.strftime("%H:%M")} ({evento.duracao})</li>'
+            dia_html += "</ul>"
+        else:
+            dia_html += "<p>Sem eventos</p>"
+
+        dia_html += "</div>"
+
+        return f'<td class="{self.cssclasses[weekday]}">{dia_html}</td>'
+
+    def formatweek(self, theweek):
+        print(f"A semana é : {theweek}")
+        """
+        Customiza a renderização de uma semana.
+        """
+        week_html = "".join(self.formatday(day, weekday) for (day, weekday) in theweek)
+        return f"<tr>{week_html}</tr>"
+
+    def eventos_para_dicionarios(self, ano, mes):
+        # Obter a estrutura do mês em semanas (7 dias por semana, com dias 0 para dias fora do mês)
+        dias_do_mes = self.monthdays2calendar(ano, mes)
+        calendario = []
+
+        for week in dias_do_mes:
+            semana = []
+            for day, weekday in week:
+                if day != 0:
+                    # Filtrar os eventos para o dia atual
+                    eventos_do_dia = [
+                        {
+                            "nome": evento.nome,
+                            "hora": evento.hora.strftime("%H:%M"),
+                            "duracao": evento.duracao,
+                            "data": evento.data.strftime(
+                                "%Y-%m-%d"
+                            ),  # Incluindo a data
+                        }
+                        for evento in self.eventos
+                        if evento.data.day == day and evento.data.month == mes
+                    ]
+                    # Adiciona o dia com seus eventos
+                    semana.append(
+                        {
+                            "numero_dia": day,
+                            "eventos": eventos_do_dia,
+                        }
+                    )
+                else:
+                    # Se for 0 (dia fora do mês), adiciona um dia vazio
+                    semana.append(
+                        {
+                            "numero_dia": "",
+                            "eventos": [],
+                        }
+                    )
+            calendario.append(semana)
+        return calendario
+
+    def formatmonth(self, theyear, themonth, withyear=True):
+        """
+        Customiza a renderização de um mês inteiro.
+        """
+        print(f"O mês e ano são : {themonth} e {theyear}")
+        self.current_month = themonth  # Armazenar o mês atual
+        calendar_html = (
+            '<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
+        )
+        calendar_html += (
+            f"{self.formatmonthname(theyear, themonth, withyear=withyear)}\n"
+        )
+        calendar_html += f"{self.formatweekheader()}\n"
+
+        for week in self.monthdays2calendar(theyear, themonth):
+            calendar_html += f"{self.formatweek(week)}\n"
+
+        return calendar_html
+
+
 @login_required(login_url="financeiro:tela_login")
 def calendario_view(request, periodo, ano=None, mes=None):
 
     username = request.user.username
     hoje = datetime.now()  # Data atual
-    calendario = HTMLCalendar(firstweekday=0)
+
+    # Lista de nomes dos meses
+    nomes_meses = [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro",
+    ]
 
     # Usar ano e mês passados na URL ou o mês/ano atuais
     if ano is None:
         ano = datetime.now().year
     if mes is None:
         mes = datetime.now().month
-    print(mes, ano)
-    # Navegação dos meses. Se estiver em janeiro e
-    # clicar em mês anterior vai para dezsembro do ano passado e etc.
 
+    # Navegação dos meses. Se estiver em janeiro e clicar em mês anterior vai para dezembro do ano passado
     if mes == 0:
         mes = 12
         ano -= 1
@@ -33,13 +155,16 @@ def calendario_view(request, periodo, ano=None, mes=None):
         mes = 1
         ano += 1
 
+    # Nome do mês baseado no número
+    nome_mes = nomes_meses[mes - 1]
+
     # Consultar os eventos do mês/ano fornecidos
-    eventos = Evento.objects.filter(data__month=mes, data__year=ano)
+    eventos = Evento.objects.filter(data__year=ano, data__month=mes)
+    calendario = MeuCalendario(eventos).eventos_para_dicionarios(ano, mes)
 
     # Definindo o template parcial com base no período
     if periodo == "mensal":
         partial = "global/partials/calendario_mensal.html"
-
     elif periodo == "semanal":
         partial = "global/partials/calendario_semanal.html"
 
@@ -50,8 +175,10 @@ def calendario_view(request, periodo, ano=None, mes=None):
         {
             "calendario": calendario,
             "username": username,
+            "partial": partial,
             "hoje": hoje,
             "mes": mes,
+            "nome_mes": nome_mes,  # Passando o nome do mês
             "ano": ano,
         },
     )

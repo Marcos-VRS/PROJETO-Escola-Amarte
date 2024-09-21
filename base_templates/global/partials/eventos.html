@@ -37,17 +37,15 @@
 
 <!-- Quadro vazio abaixo do menu -->
 <div class="empty-section" style="border: 2px solid var(--white-color); margin-top: 2rem; text-align: center;">
-    <div class="empty-box"
-        style="width: 100%; max-width: 600px; height: 300px; border: 2px solid var(--primary-color); border-radius: 0.5rem; margin: 0 auto;">
+    <div class="empty-box" style="width: 100%; max-width: 100%; height: 100%; border: 2px solid var(--primary-color); border-radius: 0.5rem; margin: 0 auto;">
         <!-- Conteúdo futuro será gerado aqui -->
          <!-- Os partials serão carregados aqui pelo Django -->
-        <div id="calendar-view" class="calendar-view" style="display: flex; flex-direction: column; align-items: center;">
+         <div id="calendar-view" class="calendar-view " style="display: flex;width: 100%; flex-direction: column; align-items: center;">
             {% if partial %}
                 {% include partial %}
             
             {% endif %}
         </div>
-        <p style="font-size: 1.82rem; color: var(--primary-color);">Conteúdo Futuro</p>
     </div>
 </div>
 
@@ -96,6 +94,59 @@
         width: 100px;
         text-align: center;
     }
+    .calendar {
+        width: 100%;
+        max-width: 100%;  /* Define a largura máxima do calendário */
+        border-collapse: collapse;
+    }
+    .calendar th, .calendar td {
+        width: 14.28%;  /* Cada coluna ocupa 1/7 do espaço */
+        height: 100px;  /* Altura fixa para as células */
+        border: 1px solid #ccc;
+        text-align: center;
+        vertical-align: top;
+        overflow: hidden;
+        position: relative;
+    }
+    .day-box {
+        padding: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        overflow: auto;  /* Permite scroll se o conteúdo for maior que a célula */
+    }
+    
+    .day-box h3 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .day-box ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .day-box ul li {
+        font-size: 1.2rem;
+        margin: 5px 0;
+    }
+    .event-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .event-list li {
+        font-size: 12px;  /* Reduz o tamanho da fonte para que os eventos caibam na célula */
+        word-wrap: break-word;
+    }
+    .calendar-view {
+        width: 100%;
+        max-width: 100%;  /* Ajusta a largura do contêiner do calendário */
+        background-color: white;  /* Fundo branco para o calendário */
+        border: 1px solid #ddd;  /* Borda ao redor do calendário */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* Sombra leve para destacar */
+    }
+
 </style>
 
 {% endblock %}
