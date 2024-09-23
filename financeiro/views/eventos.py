@@ -7,22 +7,22 @@ from django.utils.dateparse import parse_date
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 import json, calendar
-from calendar import HTMLCalendar
+from django.utils.html import format_html
+from calendar import HTMLCalendar, SUNDAY
 
 
 class MeuCalendario(HTMLCalendar):
     def __init__(self, eventos):
         super().__init__()
-        self.eventos = eventos  # Passamos os eventos ao criar a instância do calendário
+        self.eventos = eventos
+        self.setfirstweekday(SUNDAY)  # Definir o domingo como o primeiro dia da semana
 
     def formatday(self, day, weekday):
         """
         Customiza a renderização de um dia do calendário.
         day: o número do dia
-        weekday: o número do dia da semana (segunda, terça, etc.)
+        weekday: o número do dia da semana (domingo, segunda, etc.)
         """
-
-        print(f"Os dia e semana são :{day},{weekday}")
         if day == 0:
             # Dias fora do mês
             return '<td class="noday"></td>'
@@ -33,7 +33,7 @@ class MeuCalendario(HTMLCalendar):
             for evento in self.eventos
             if evento.data.day == day and evento.data.month == self.current_month
         ]
-        print(f"Os eventos do dia são : {evento}")
+
         # Template de HTML do quadro do dia
         dia_html = f'<div class="day-box"><h3>{day}</h3>'
 
@@ -52,7 +52,6 @@ class MeuCalendario(HTMLCalendar):
         return f'<td class="{self.cssclasses[weekday]}">{dia_html}</td>'
 
     def formatweek(self, theweek):
-        print(f"A semana é : {theweek}")
         """
         Customiza a renderização de uma semana.
         """
@@ -74,28 +73,16 @@ class MeuCalendario(HTMLCalendar):
                             "nome": evento.nome,
                             "hora": evento.hora.strftime("%H:%M"),
                             "duracao": evento.duracao,
-                            "data": evento.data.strftime(
-                                "%Y-%m-%d"
-                            ),  # Incluindo a data
+                            "data": evento.data.strftime("%Y-%m-%d"),
                         }
                         for evento in self.eventos
                         if evento.data.day == day and evento.data.month == mes
                     ]
                     # Adiciona o dia com seus eventos
-                    semana.append(
-                        {
-                            "numero_dia": day,
-                            "eventos": eventos_do_dia,
-                        }
-                    )
+                    semana.append({"numero_dia": day, "eventos": eventos_do_dia})
                 else:
                     # Se for 0 (dia fora do mês), adiciona um dia vazio
-                    semana.append(
-                        {
-                            "numero_dia": "",
-                            "eventos": [],
-                        }
-                    )
+                    semana.append({"numero_dia": "", "eventos": []})
             calendario.append(semana)
         return calendario
 
@@ -103,7 +90,6 @@ class MeuCalendario(HTMLCalendar):
         """
         Customiza a renderização de um mês inteiro.
         """
-        print(f"O mês e ano são : {themonth} e {theyear}")
         self.current_month = themonth  # Armazenar o mês atual
         calendar_html = (
             '<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'

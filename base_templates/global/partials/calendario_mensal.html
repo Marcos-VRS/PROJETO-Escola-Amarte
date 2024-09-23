@@ -1,9 +1,18 @@
 <!-- global/partials/calendario_mensal.html -->
-<table class=" calendar main-bg" style="color:var(--white-color);">
-    <thead >
-        {{nome_mes}} / {{ano}}
+<table class="calendar main-bg">
+    <thead>
+        <!-- Contêiner flexível para navegação -->
+        <div class="navegacao-calendario">
+            <a href="?ano={{ ano }}&mes={{ mes|add:'-1' }}" class="btn-navegacao">
+                &#8249; Mês Anterior
+            </a>
+            <span class="btn-navegacao">{{ nome_mes }} / {{ ano }}</span>
+            <a href="?ano={{ ano }}&mes={{ mes|add:'1' }}" class="btn-navegacao">
+                Mês Seguinte &#8250;
+            </a>
+        </div>
         <tr class="dia-da-semana">
-            <th >Domingo</th>
+            <th>Domingo</th>
             <th>Segunda</th>
             <th>Terça</th>
             <th>Quarta</th>
@@ -16,22 +25,22 @@
         {% for week in calendario %}
         <tr>
             {% for day in week %}
-            <td class="day-cell" >
+            <td class="day-cell">
                 <!-- Título com o número do dia -->
                 <div class="day-box">
                     {% if day.numero_dia %}
-                    <h3 >{{ day.numero_dia }}</h3>
+                    <h3>{{ day.numero_dia }}</h3>
 
                     <!-- Verificação se há eventos -->
                     {% if day.eventos %}
-                    <ul class="event-list ">
+                    <ul class="event-list">
                         <!-- Lista de eventos do dia -->
                         {% for evento in day.eventos %}
                         <li>*{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})<br><br></li>
                         {% endfor %}
                     </ul>
                     {% else %}
-                    <p>   </p>
+                    <p>     </p>
                     {% endif %}
                     {% endif %}
                 </div>
