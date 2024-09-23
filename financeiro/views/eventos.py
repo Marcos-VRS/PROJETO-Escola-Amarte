@@ -107,7 +107,6 @@ class MeuCalendario(HTMLCalendar):
 
 @login_required(login_url="financeiro:tela_login")
 def calendario_view(request, periodo, ano=None, mes=None):
-
     username = request.user.username
     hoje = datetime.now()  # Data atual
 
@@ -129,17 +128,17 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
     # Usar ano e mês passados na URL ou o mês/ano atuais
     if ano is None:
-        ano = datetime.now().year
+        ano = hoje.year
     if mes is None:
-        mes = datetime.now().month
+        mes = hoje.month
 
-    # Navegação dos meses. Se estiver em janeiro e clicar em mês anterior vai para dezembro do ano passado
-    if mes == 0:
-        mes = 12
-        ano -= 1
-    elif mes == 13:
-        mes = 1
-        ano += 1
+    # Navegação dos meses
+    mes_anterior = hoje.replace(
+        month=mes - 1 if mes > 1 else 12, year=ano - 1 if mes == 1 else ano
+    )
+    mes_seguinte = hoje.replace(
+        month=mes + 1 if mes < 12 else 1, year=ano + 1 if mes == 12 else ano
+    )
 
     # Nome do mês baseado no número
     nome_mes = nomes_meses[mes - 1]
@@ -164,8 +163,10 @@ def calendario_view(request, periodo, ano=None, mes=None):
             "partial": partial,
             "hoje": hoje,
             "mes": mes,
-            "nome_mes": nome_mes,  # Passando o nome do mês
+            "nome_mes": nome_mes,
             "ano": ano,
+            "mes_anterior": mes_anterior,
+            "mes_seguinte": mes_seguinte,
         },
     )
 
