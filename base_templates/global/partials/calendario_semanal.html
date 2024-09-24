@@ -28,8 +28,7 @@
             <td
                 class="day-number {% if dia.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
                 <h3>{{ dia.numero_dia }}/{{ mes }}/{{ ano }}</h3> <!-- Exibe o número do dia -->
-                    <!--COLOCAR A LISTA DE EVENTOS AQUI -->
-                <!-- Lista de eventos para o dia -->
+                    <!-- Lista de eventos para o dia -->
                 <ul>
                     {% for semana in calendario %}
                         {% for dia_calendario in semana %}
@@ -37,18 +36,17 @@
                                 {% if dia_calendario.eventos %}
                                     {% for evento in dia_calendario.eventos %}
                                         <li>
-                                            <b><big><u>{{ evento.nome }}</b></big></u><br>
-                                            <b>Hora:</b>{{ evento.hora }}<br>
-                                            <b>Duração:</b>({{ evento.duracao }})<br>
-                                            <b>Descrição:</b><i>{{evento.descricao}}</i><br>
+                                            <b><big><u>{{ evento.nome }}</u></big></b><br>
+                                            <b>Hora:</b> {{ evento.hora }}<br>
+                                            <b>Duração:</b> {{ evento.duracao }}<br>
+                                            <b>Descrição:</b> <i>{{ evento.descricao }}</i><br>
                                             <b>Participantes:</b>
                                             <ul>
-                                                <!-- Loop pelos participantes -->
                                                 {% for participante in evento.participantes %}
-                                                    <li>{{ participante.nome }} ({{ participante.categoria }})</li>
+                                                    <li>-{{ participante.nome }}<b>({{ participante.categoria }})</b></li><br>
                                                 {% endfor %}
                                             </ul><br><br>
-                                            <br><br><br><br>                                       </li>
+                                        </li>
                                     {% endfor %}
                                 {% else %}
                                     <li>Sem eventos</li>

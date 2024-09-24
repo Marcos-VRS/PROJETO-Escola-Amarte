@@ -117,7 +117,13 @@ class MeuCalendario(HTMLCalendar):
                             "duracao": evento.duracao,
                             "data": evento.data.strftime("%Y-%m-%d"),
                             "descricao": evento.descricao,
-                            "participantes:": evento.participantes_selecionados,
+                            "participantes": [
+                                {
+                                    "nome": participante["nome"],
+                                    "categoria": participante["categoria"],
+                                }
+                                for participante in evento.participantes_selecionados
+                            ],
                         }
                         for evento in self.eventos
                         if evento.data.day == day and evento.data.month == mes
