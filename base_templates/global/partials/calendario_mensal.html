@@ -1,57 +1,54 @@
 <!-- global/partials/calendario_mensal.html -->
 <table class="calendar main-bg">
-    <!-- Contêiner flexível para navegação -->
-    <table class="calendar main-bg">
-        <thead>
-            <!-- Navegação do calendário -->
-            <div class="navegacao-calendario">
-                <a href="{% url 'financeiro:calendario_view' 'mensal' mes_anterior.year mes_anterior.month %}"
-                    class="btn-navegacao">
-                    &#8249; Mês Anterior
-                </a>
-                <span class="btn-navegacao">{{ nome_mes }} / {{ ano }}</span>
-                <a href="{% url 'financeiro:calendario_view' 'mensal' mes_seguinte.year mes_seguinte.month %}"
-                    class="btn-navegacao">
-                    Mês Seguinte &#8250;
-                </a>
-            </div>
-            <!-- Cabeçalho dos dias da semana -->
-            <tr class="dia-da-semana">
-                <th>Domingo</th>
-                <th>Segunda</th>
-                <th>Terça</th>
-                <th>Quarta</th>
-                <th>Quinta</th>
-                <th>Sexta</th>
-                <th>Sábado</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for week in calendario %}
-            <tr>
-                {% for day in week %}
-                <td class="day-cell">
-                    <!-- Verificação do dia atual para aplicar a classe "hoje" -->
-                    <div
-                        class="day-box {% if day.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
-                        {% if day.numero_dia %}
-                        <h3>{{ day.numero_dia }}</h3>
+    <thead>
+        <!-- Contêiner flexível para navegação -->
+        <div class="navegacao-calendario">
+            <a href="{% url 'financeiro:calendario_view' 'mensal' mes_anterior.year mes_anterior.month %}"
+                class="btn-navegacao">
+                &#8249; Mês Anterior
+            </a>
+            <span class="btn-navegacao">{{ nome_mes }} / {{ ano }}</span>
+            <a href="{% url 'financeiro:calendario_view' 'mensal' mes_seguinte.year mes_seguinte.month %}"
+                class="btn-navegacao">
+                Mês Seguinte &#8250;
+            </a>
+        </div>
+        <tr class="dia-da-semana">
+            <th>Domingo</th>
+            <th>Segunda</th>
+            <th>Terça</th>
+            <th>Quarta</th>
+            <th>Quinta</th>
+            <th>Sexta</th>
+            <th>Sábado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in calendario %}
+        <tr>
+            {% for day in week %}
+            <td class="day-cell">
+                <!-- Título com o número do dia -->
+                <div class="day-box">
+                    {% if day.numero_dia %}
+                    <h3>{{ day.numero_dia }}</h3>
 
-                        <!-- Verificação de eventos -->
-                        {% if day.eventos %}
-                        <ul class="event-list">
-                            {% for evento in day.eventos %}
-                            <li><b>-</b>{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})<br><br></li>
-                            {% endfor %}
-                        </ul>
-                        {% else %}
-                        <p> </p>
-                        {% endif %}
-                        {% endif %}
-                    </div>
-                </td>
-                {% endfor %}
-            </tr>
+                    <!-- Verificação se há eventos -->
+                    {% if day.eventos %}
+                    <ul class="event-list">
+                        <!-- Lista de eventos do dia -->
+                        {% for evento in day.eventos %}
+                        <li><b>-</b>{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})<br><br></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p> </p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </td>
             {% endfor %}
-        </tbody>
-    </table>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

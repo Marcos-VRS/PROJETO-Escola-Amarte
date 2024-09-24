@@ -5,11 +5,12 @@
             <a href="#" class="btn-navegacao">
                 &#8249; Semana Anterior
             </a>
-            <span class="btn-navegacao">{{ primeiro_dia }}/{{ano}} - {{ ultimo_dia }}/{{ano}}</span>
+            <span class="btn-navegacao">{{ primeiro_dia }}/{{ ano }} - {{ ultimo_dia }}/{{ ano }}</span>
             <a href="#" class="btn-navegacao">
                 Semana Seguinte &#8250;
             </a>
         </div>
+        <!-- Cabeçalho com os nomes dos dias da semana -->
         <tr class="dia-da-semana">
             <th>Domingo</th>
             <th>Segunda</th>
@@ -21,25 +22,41 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            {% for day in calendario %}
-            <td class="day-cell">
-                <div
-                    class="day-box {% if day.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
-                    {% if day.numero_dia %}
-                    <h3>{{ day.numero_dia }}</h3>
-
-                    {% if day.eventos %}
-                    <ul class="event-list">
-                        {% for evento in day.eventos %}
-                        <li><b>-</b>{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})</li>
+        <!-- Linha com os números dos dias do mês -->
+        <tr class="numeros-da-semana">
+            {% for dia in semana_atual %}
+            <td
+                class="day-number {% if dia.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
+                <h3>{{ dia.numero_dia }}/{{ mes }}/{{ ano }}</h3> <!-- Exibe o número do dia -->
+                    <!--COLOCAR A LISTA DE EVENTOS AQUI -->
+                <!-- Lista de eventos para o dia -->
+                <ul>
+                    {% for semana in calendario %}
+                        {% for dia_calendario in semana %}
+                            {% if dia_calendario.numero_dia == dia.numero_dia %}
+                                {% if dia_calendario.eventos %}
+                                    {% for evento in dia_calendario.eventos %}
+                                        <li>
+                                            <b><big><u>{{ evento.nome }}</b></big></u><br>
+                                            <b>Hora:</b>{{ evento.hora }}<br>
+                                            <b>Duração:</b>({{ evento.duracao }})<br>
+                                            <b>Descrição:</b><i>{{evento.descricao}}</i><br>
+                                            <b>Participantes:</b>
+                                            <ul>
+                                                <!-- Loop pelos participantes -->
+                                                {% for participante in evento.participantes %}
+                                                    <li>{{ participante.nome }} ({{ participante.categoria }})</li>
+                                                {% endfor %}
+                                            </ul><br><br>
+                                            <br><br><br><br>                                       </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>Sem eventos</li>
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
-                    </ul>
-                    {% else %}
-                    <p> </p>
-                    {% endif %}
-                    {% endif %}
-                </div>
+                    {% endfor %}
+                </ul>
             </td>
             {% endfor %}
         </tr>

@@ -102,43 +102,54 @@ class MeuCalendario(HTMLCalendar):
         ano,
         mes,
     ):
-        """
-        Retorna uma lista de dicionários contendo os dias da semana e seus eventos.
-        """
-        hoje = datetime.now()  # Data atual
-
+        # Obter a estrutura do mês em semanas (7 dias por semana, com dias 0 para dias fora do mês)
+        dias_do_mes = self.monthdays2calendar(ano, mes)
         calendario = []
+        for week in dias_do_mes:
+            semana = []
+            for day, weekday in week:
+                if day != 0:
+                    # Filtrar os eventos para o dia atual
+                    eventos_do_dia = [
+                        {
+                            "nome": evento.nome,
+                            "hora": evento.hora.strftime("%H:%M"),
+                            "duracao": evento.duracao,
+                            "data": evento.data.strftime("%Y-%m-%d"),
+                            "descricao": evento.descricao,
+                            "participantes:": evento.participantes_selecionados,
+                        }
+                        for evento in self.eventos
+                        if evento.data.day == day and evento.data.month == mes
+                    ]
+                    semana.append({"numero_dia": day, "eventos": eventos_do_dia})
+                else:
+                    semana.append({"numero_dia": None, "eventos": []})
 
-        # Começar no dia inicial e pegar os próximos 7 dias (semana)
-        primeiro_dia = datetime(ano, mes, hoje.day - 1)
-
-        for n in range(7):
-            dia_atual = primeiro_dia + timedelta(days=n)
-            eventos_do_dia = [
-                {
-                    "nome": evento.nome,
-                    "hora": evento.hora.strftime("%H:%M"),
-                    "duracao": evento.duracao,
-                    "data": evento.data.strftime("%Y-%m-%d"),
-                }
-                for evento in self.eventos
-                if evento.data == dia_atual.date()
-            ]
-            calendario.append(
-                {
-                    "numero_dia": dia_atual.day,
-                    "eventos": eventos_do_dia,
-                    "data": dia_atual.strftime("%Y-%m-%d"),
-                }
-            )
+            calendario.append(semana)
 
         return calendario
+
+
+def dias_da_semana_atual(hoje):
+    # Obter o primeiro dia da semana (domingo)
+    primeiro_dia_semana = hoje - timedelta(days=hoje.weekday() + 1)
+    dias_semana = []
+
+    for i in range(7):  # De domingo a sábado
+        dia_atual = primeiro_dia_semana + timedelta(days=i)
+
+        dias_semana.append({"numero_dia": dia_atual.day})
+
+    return dias_semana
 
 
 @login_required(login_url="financeiro:tela_login")
 def calendario_view(request, periodo, ano=None, mes=None):
     username = request.user.username
     hoje = datetime.now()  # Data atual
+    semana_atual = dias_da_semana_atual(hoje)
+    print(f"A semana atual é {semana_atual}")
 
     # Lista de nomes dos meses
     nomes_meses = [
@@ -190,6 +201,7 @@ def calendario_view(request, periodo, ano=None, mes=None):
         # Exibir o calendário mensal
         calendario = MeuCalendario(eventos).eventos_para_dicionarios_semana(ano, mes)
         partial = "global/partials/calendario_semanal.html"
+        print(f"O Calendario é : {calendario}")
 
     # Renderizar o template com os dados
     return render(
@@ -201,6 +213,7 @@ def calendario_view(request, periodo, ano=None, mes=None):
             "partial": partial,
             "hoje": hoje,
             "mes": mes,
+            "semana_atual": semana_atual,
             "nome_mes": nome_mes,
             "ano": ano,
             "mes_anterior": mes_anterior,

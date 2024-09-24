@@ -803,5 +803,11 @@ button {
 
 .hoje {
     border: 2px solid red;
-    padding: 5px;
+}
+
+.day-number.hoje {
+    border: 2px solid red;
+    /* Define bordas vermelhas */
+    border-radius: 5px;
+    /* Adiciona cantos arredondados (opcional) */
 }
