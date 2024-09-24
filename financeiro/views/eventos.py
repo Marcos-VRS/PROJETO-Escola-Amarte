@@ -17,6 +17,18 @@ class MeuCalendario(HTMLCalendar):
         self.eventos = eventos
         self.setfirstweekday(SUNDAY)  # Definir o domingo como o primeiro dia da semana
 
+    def primeiro_e_ultimo_dia_da_semana(self, ano, mes):
+        """
+        Calcula o primeiro e o último dia da semana a partir da data fornecida.
+        """
+        primeira_data = datetime(ano, mes, 1)  # Primeira data do mês
+
+        primeiro_dia = primeira_data - timedelta(
+            days=primeira_data.weekday()
+        )  # Domingo anterior
+        ultimo_dia = primeiro_dia + timedelta(days=6)  # Sábado da mesma semana
+        return primeiro_dia, ultimo_dia
+
     def formatday(self, day, weekday):
         """
         Customiza a renderização de um dia do calendário.
@@ -62,7 +74,6 @@ class MeuCalendario(HTMLCalendar):
         # Obter a estrutura do mês em semanas (7 dias por semana, com dias 0 para dias fora do mês)
         dias_do_mes = self.monthdays2calendar(ano, mes)
         calendario = []
-
         for week in dias_do_mes:
             semana = []
             for day, weekday in week:
@@ -78,31 +89,50 @@ class MeuCalendario(HTMLCalendar):
                         for evento in self.eventos
                         if evento.data.day == day and evento.data.month == mes
                     ]
-                    # Adiciona o dia com seus eventos
                     semana.append({"numero_dia": day, "eventos": eventos_do_dia})
                 else:
-                    # Se for 0 (dia fora do mês), adiciona um dia vazio
-                    semana.append({"numero_dia": "", "eventos": []})
+                    semana.append({"numero_dia": None, "eventos": []})
+
             calendario.append(semana)
+
         return calendario
 
-    def formatmonth(self, theyear, themonth, withyear=True):
+    def eventos_para_dicionarios_semana(
+        self,
+        ano,
+        mes,
+    ):
         """
-        Customiza a renderização de um mês inteiro.
+        Retorna uma lista de dicionários contendo os dias da semana e seus eventos.
         """
-        self.current_month = themonth  # Armazenar o mês atual
-        calendar_html = (
-            '<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
-        )
-        calendar_html += (
-            f"{self.formatmonthname(theyear, themonth, withyear=withyear)}\n"
-        )
-        calendar_html += f"{self.formatweekheader()}\n"
+        hoje = datetime.now()  # Data atual
 
-        for week in self.monthdays2calendar(theyear, themonth):
-            calendar_html += f"{self.formatweek(week)}\n"
+        calendario = []
 
-        return calendar_html
+        # Começar no dia inicial e pegar os próximos 7 dias (semana)
+        primeiro_dia = datetime(ano, mes, hoje.day - 1)
+
+        for n in range(7):
+            dia_atual = primeiro_dia + timedelta(days=n)
+            eventos_do_dia = [
+                {
+                    "nome": evento.nome,
+                    "hora": evento.hora.strftime("%H:%M"),
+                    "duracao": evento.duracao,
+                    "data": evento.data.strftime("%Y-%m-%d"),
+                }
+                for evento in self.eventos
+                if evento.data == dia_atual.date()
+            ]
+            calendario.append(
+                {
+                    "numero_dia": dia_atual.day,
+                    "eventos": eventos_do_dia,
+                    "data": dia_atual.strftime("%Y-%m-%d"),
+                }
+            )
+
+        return calendario
 
 
 @login_required(login_url="financeiro:tela_login")
@@ -145,12 +175,20 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
     # Consultar os eventos do mês/ano fornecidos
     eventos = Evento.objects.filter(data__year=ano, data__month=mes)
-    calendario = MeuCalendario(eventos).eventos_para_dicionarios(ano, mes)
 
-    # Definindo o template parcial com base no período
+    # Definir variáveis para o calendário
+    calendario = None
+    primeiro_dia = None
+    ultimo_dia = None
+
     if periodo == "mensal":
+        # Exibir o calendário mensal
+        calendario = MeuCalendario(eventos).eventos_para_dicionarios(ano, mes)
         partial = "global/partials/calendario_mensal.html"
-    elif periodo == "semanal":
+
+    if periodo == "semanal":
+        # Exibir o calendário mensal
+        calendario = MeuCalendario(eventos).eventos_para_dicionarios_semana(ano, mes)
         partial = "global/partials/calendario_semanal.html"
 
     # Renderizar o template com os dados
@@ -167,6 +205,12 @@ def calendario_view(request, periodo, ano=None, mes=None):
             "ano": ano,
             "mes_anterior": mes_anterior,
             "mes_seguinte": mes_seguinte,
+            "primeiro_dia": (
+                primeiro_dia.strftime("%d/%m") if primeiro_dia else None
+            ),  # Formato desejado
+            "ultimo_dia": (
+                ultimo_dia.strftime("%d/%m") if ultimo_dia else None
+            ),  # Formato desejado
         },
     )
 

@@ -1,21 +1,47 @@
-<div class="calendar-week-view">
-    <div class="calendar-body" style="display: flex; flex-wrap: wrap; justify-content: center;">
-        <div class="week-row" style="display: flex;">
-            {% for day in weeks.0 %}
-            <div class="calendar-day {% if day == hoje %}today{% endif %}"
-                style="margin: 5px; padding: 10px; border: 1px solid #ddd;">
-                <strong>{{ day|date:"D, d M Y" }}</strong>
-                <div>
-                    {% for evento in eventos %}
-                    {% if evento.data == day %}
-                    <div class="event" style="margin-top: 5px; padding: 5px; background-color: #f2f2f2;">
-                        {{ evento.titulo }}
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            {% endfor %}
+<table class="calendar main-bg">
+    <thead>
+        <!-- Navegação semanal -->
+        <div class="navegacao-calendario">
+            <a href="#" class="btn-navegacao">
+                &#8249; Semana Anterior
+            </a>
+            <span class="btn-navegacao">{{ primeiro_dia }}/{{ano}} - {{ ultimo_dia }}/{{ano}}</span>
+            <a href="#" class="btn-navegacao">
+                Semana Seguinte &#8250;
+            </a>
         </div>
-    </div>
-</div>
+        <tr class="dia-da-semana">
+            <th>Domingo</th>
+            <th>Segunda</th>
+            <th>Terça</th>
+            <th>Quarta</th>
+            <th>Quinta</th>
+            <th>Sexta</th>
+            <th>Sábado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for day in calendario %}
+            <td class="day-cell">
+                <div
+                    class="day-box {% if day.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
+                    {% if day.numero_dia %}
+                    <h3>{{ day.numero_dia }}</h3>
+
+                    {% if day.eventos %}
+                    <ul class="event-list">
+                        {% for evento in day.eventos %}
+                        <li><b>-</b>{{ evento.nome }} - {{ evento.hora }} ({{ evento.duracao }})</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p> </p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>

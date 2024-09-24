@@ -800,3 +800,8 @@ button {
     background-color: #f0f0f0;
     /* Cor de fundo ao passar o mouse */
 }
+
+.hoje {
+    border: 2px solid red;
+    padding: 5px;
+}
