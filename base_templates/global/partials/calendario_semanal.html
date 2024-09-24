@@ -27,26 +27,28 @@
             {% for dia in semana_atual %}
             <td
                 class="day-number {% if dia.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
-                <h3>{{ dia.numero_dia }}/{{ mes }}/{{ ano }}</h3> <!-- Exibe o número do dia -->
+                <h3>{{ dia.numero_dia }}/{{ mes }}/{{ ano }}</h3><br> <!-- Exibe o número do dia -->
                     <!-- Lista de eventos para o dia -->
-                <ul>
+                
+
+                <ul  >
                     {% for semana in calendario %}
                         {% for dia_calendario in semana %}
                             {% if dia_calendario.numero_dia == dia.numero_dia %}
                                 {% if dia_calendario.eventos %}
                                     {% for evento in dia_calendario.eventos %}
-                                        <li>
-                                            <b><big><u>{{ evento.nome }}</u></big></b><br>
-                                            <b>Hora:</b> {{ evento.hora }}<br>
-                                            <b>Duração:</b> {{ evento.duracao }}<br>
-                                            <b>Descrição:</b> <i>{{ evento.descricao }}</i><br>
+                                        <li style="background:rgba(0, 0, 0, 0.534);border-radius: 0.5rem;">
+                                            <b><big><u>{{ evento.nome }}</u></big></b><br><br> 
+                                            <b>Hora:</b> {{ evento.hora }}<br><br> 
+                                            <b>Duração:</b> {{ evento.duracao }}<br><br> 
+                                            <b>Descrição:</b> <i>{{ evento.descricao }}</i><br><br> 
                                             <b>Participantes:</b>
                                             <ul>
                                                 {% for participante in evento.participantes %}
                                                     <li>-{{ participante.nome }}<b>({{ participante.categoria }})</b></li><br>
                                                 {% endfor %}
-                                            </ul><br><br>
-                                        </li>
+                                            </ul>
+                                        </li><br><br>
                                     {% endfor %}
                                 {% else %}
                                     <li>Sem eventos</li>
@@ -55,6 +57,7 @@
                         {% endfor %}
                     {% endfor %}
                 </ul>
+                
             </td>
             {% endfor %}
         </tr>

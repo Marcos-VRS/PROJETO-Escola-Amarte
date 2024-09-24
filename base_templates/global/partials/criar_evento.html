@@ -77,9 +77,9 @@
 <script>
     document.getElementById('add-participant-btn').addEventListener('click', function () {
         const container = document.getElementById('participants-container');
-        const participantesSelecionados = [];
+        let participantesSelecionados = [];
 
-        // Criação do dropdown de categorias
+        // Criação do dropdown de categorias (mesmo código anterior)
         const categoryDropdown = document.createElement('select');
         categoryDropdown.id = 'category-dropdown';
         categoryDropdown.style.fontSize = '1.6rem';
@@ -89,7 +89,7 @@
         categoryDropdown.style.backgroundColor = 'var(--white-color)';
         categoryDropdown.innerHTML = '<option value="">Selecione uma categoria</option>';
 
-        // Adicionando opções de categorias
+        // Adicionando opções de categorias (mesmo código anterior)
         fetch("{% url 'financeiro:buscar_categorias' %}")
             .then(response => response.json())
             .then(data => {
@@ -106,7 +106,7 @@
         container.innerHTML = '';  // Limpar o container
         container.appendChild(categoryDropdown);
 
-        // Criação do dropdown de participantes
+        // Criação do dropdown de participantes (mesmo código anterior)
         const participantDropdown = document.createElement('select');
         participantDropdown.id = 'participant-dropdown';
         participantDropdown.style.fontSize = '1.6rem';
@@ -117,10 +117,10 @@
         participantDropdown.disabled = true;
         participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
 
-        // Adicionando o dropdown de participantes ao container
+        // Adicionando o dropdown de participantes ao container (mesmo código anterior)
         container.appendChild(participantDropdown);
 
-        // Adiciona um evento de mudança ao dropdown de categorias
+        // Evento de mudança no dropdown de categorias (mesmo código anterior)
         categoryDropdown.addEventListener('change', function () {
             const categoria = this.value;
             if (categoria) {
@@ -181,15 +181,19 @@
                 div.style.position = 'relative'; // Necessário para posicionar o botão de remoção
                 div.style.transition = 'background-color 0.3s ease, color 0.3s ease'; // Transição para mudança de cor
                 div.innerHTML = `
-                    <span>${participante.nome} (${participante.categoria})</span>
-                    <button type="button" class="remove-participant-btn"
-                        style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
-                        X
-                    </button>
-                `;
+                <span>${participante.nome} (${participante.categoria})</span>
+                <button type="button" class="remove-participant-btn"
+                    style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                    X
+                </button>
+            `;
 
+                // Função para remover o participante da lista e do DOM
                 div.querySelector('.remove-participant-btn').addEventListener('click', function () {
                     container.removeChild(div);
+
+                    // Remover o participante da lista de selecionados
+                    participantesSelecionados = participantesSelecionados.filter(p => p.id !== participante.id);
                     updateHiddenInput();
                 });
 
@@ -219,7 +223,7 @@
                 cpf: p.cpf,
                 categoria: p.categoria
             }));
-            hiddenInput.value = JSON.stringify(participantes);  // Armazene o dicionário como JSON
+            hiddenInput.value = JSON.stringify(participantes);  // Armazena o dicionário como JSON
         }
     });
 
