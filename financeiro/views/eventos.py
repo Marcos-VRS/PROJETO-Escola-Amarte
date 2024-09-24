@@ -146,7 +146,7 @@ def dias_da_semana_atual(hoje):
         dia_atual = primeiro_dia_semana + timedelta(days=i)
 
         dias_semana.append({"numero_dia": dia_atual.day})
-
+    print(f"A lista de dias da semana é : {dias_semana}")
     return dias_semana
 
 
@@ -155,6 +155,7 @@ def calendario_view(request, periodo, ano=None, mes=None):
     username = request.user.username
     hoje = datetime.now()  # Data atual
     semana_atual = dias_da_semana_atual(hoje)
+    print(f"O dia atual é {hoje.day}")
     print(f"A semana atual é {semana_atual}")
 
     # Lista de nomes dos meses
@@ -179,7 +180,7 @@ def calendario_view(request, periodo, ano=None, mes=None):
     if mes is None:
         mes = hoje.month
 
-    # Navegação dos meses
+    # Navegação das semanas
     mes_anterior = hoje.replace(
         month=mes - 1 if mes > 1 else 12, year=ano - 1 if mes == 1 else ano
     )
@@ -187,6 +188,13 @@ def calendario_view(request, periodo, ano=None, mes=None):
         month=mes + 1 if mes < 12 else 1, year=ano + 1 if mes == 12 else ano
     )
 
+    # Navegação dos meses
+    semana_anterior = hoje - timedelta(days=7)
+    semana_seguinte = hoje + timedelta(days=7)
+
+    print(
+        f"o botão semana anteioro é : {semana_anterior}e a semana seguinte é :{semana_seguinte}"
+    )
     # Nome do mês baseado no número
     nome_mes = nomes_meses[mes - 1]
 
@@ -195,8 +203,6 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
     # Definir variáveis para o calendário
     calendario = None
-    primeiro_dia = None
-    ultimo_dia = None
 
     if periodo == "mensal":
         # Exibir o calendário mensal
@@ -205,9 +211,9 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
     if periodo == "semanal":
         # Exibir o calendário mensal
+
         calendario = MeuCalendario(eventos).eventos_para_dicionarios_semana(ano, mes)
         partial = "global/partials/calendario_semanal.html"
-        print(f"O Calendario é : {calendario}")
 
     # Renderizar o template com os dados
     return render(
@@ -224,12 +230,8 @@ def calendario_view(request, periodo, ano=None, mes=None):
             "ano": ano,
             "mes_anterior": mes_anterior,
             "mes_seguinte": mes_seguinte,
-            "primeiro_dia": (
-                primeiro_dia.strftime("%d/%m") if primeiro_dia else None
-            ),  # Formato desejado
-            "ultimo_dia": (
-                ultimo_dia.strftime("%d/%m") if ultimo_dia else None
-            ),  # Formato desejado
+            "semana_anterior": semana_anterior,
+            "semana_seguinte": semana_seguinte,
         },
     )
 
