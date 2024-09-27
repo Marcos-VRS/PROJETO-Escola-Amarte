@@ -356,6 +356,16 @@ def atualizar_evento(request, id):
     username = request.user.username
     evento = get_object_or_404(Evento, id=id)
 
+    # Carregar os participantes selecionados (JSON)
+    participantes_json = evento.participantes_selecionados
+    participantes_lista = []
+
+    # Tratar o JSON para extrair nome e categoria
+    for participante in participantes_json:
+        nome = participante.get("nome", "Nome Desconhecido")
+        categoria = participante.get("categoria", "Categoria Desconhecida")
+        participantes_lista.append(f"{nome} ({categoria})")
+
     if request.method == "POST":
         form = EventoForm(request.POST, instance=evento)
         if form.is_valid():
@@ -363,9 +373,15 @@ def atualizar_evento(request, id):
             return redirect("financeiro:eventos")
     else:
         form = EventoForm(instance=evento)
-
+    print(f"O JSON com os participantes é {participantes_json}")
+    print(f"A lista de participantes é {participantes_lista}")
     return render(
         request,
         "global/partials/atualizar_evento.html",
-        {"form": form, "evento": evento, "username": username},
+        {
+            "form": form,
+            "evento": evento,
+            "username": username,
+            "participantes_lista": participantes_lista,
+        },
     )

@@ -50,6 +50,23 @@
             {% endfor %}
         </div>
 
+
+        <div class="form-group" style="margin-bottom: 1.5rem; width: 100%; max-width: 600px;">
+            <label for="participantes_selecionados"
+                style="display: block; font-size: 2rem; color: var(--white-color); margin-bottom: 1rem;">
+                Participantes Selecionados
+            </label>
+
+            <!-- Lista Vertical dos Participantes -->
+            <ul style="list-style: none; padding: 0;">
+                {% for participante in participantes_lista %}
+                <li style="font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
+                    {{ participante }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
         <div style="margin-top: 2rem;">
             <button type="submit"
                 style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
