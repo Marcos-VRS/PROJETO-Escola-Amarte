@@ -14,7 +14,9 @@ class EventoForm(forms.ModelForm):
         ]
         widgets = {
             "nome": forms.TextInput(attrs={"class": "form-control"}),
-            "data": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
+            "data": forms.DateInput(
+                format="%Y/%m/%d", attrs={"class": "form-control", "type": "date"}
+            ),
             "hora": forms.TimeInput(attrs={"class": "form-control", "type": "time"}),
             "duracao": forms.TextInput(
                 attrs={"placeholder": "Duração do evento (ex: 2 horas)"}

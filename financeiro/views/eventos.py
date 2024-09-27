@@ -373,6 +373,8 @@ def atualizar_evento(request, id):
             return redirect("financeiro:eventos")
     else:
         form = EventoForm(instance=evento)
+    print(f"Esse é o FORM {form}")
+
     print(f"O JSON com os participantes é {participantes_json}")
     print(f"A lista de participantes é {participantes_lista}")
     return render(

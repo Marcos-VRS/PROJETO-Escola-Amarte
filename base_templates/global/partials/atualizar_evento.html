@@ -6,7 +6,7 @@
     <div class="button-container"
         style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
         <!-- Botão de voltar -->
-        <a href="{% url 'financeiro:eventos' %}" class="evento-button"
+        <a href="{% url 'financeiro:consultar_evento' %}" class="evento-button"
             style="background-color: var(--primary-color); color: var(--white-color); text-decoration: none; padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); transition: transform 0.3s ease, background-color 0.3s ease; margin-bottom: 1.5rem;">
             Voltar
         </a>
@@ -58,10 +58,14 @@
             </label>
 
             <!-- Lista Vertical dos Participantes -->
-            <ul style="list-style: none; padding: 0;">
+            <ul id="participantes-list" style="list-style: none; padding: 0;">
                 {% for participante in participantes_lista %}
-                <li style="font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
+                <li id="participante-{{ forloop.counter }}"
+                    style="font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
                     {{ participante }}
+                    <!-- Botão de Remover -->
+                    <button type="button" class="remove-btn" data-index="{{ forloop.counter }}"
+                        style="margin-left: 10px; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 0.2rem 0.6rem; border-radius: 0.3rem;">Remover</button>
                 </li>
                 {% endfor %}
             </ul>
@@ -75,4 +79,6 @@
         </div>
     </form>
 </div>
+
+
 {% endblock %}
