@@ -37,7 +37,7 @@
                     style="display: block; font-size: 2rem; color: var(--white-color); margin-bottom: 1rem;">
                     {{ field.label_tag }}
                 </label>
-                <div class="input-container" style="display: flex; flex-direction: column;">
+                <div class="input-container" style="display: flex; flex-direction: column;border-radius: 0.5rem;">
                     {{ field }}
                     {% if field.errors %}
                     <div class="error-message"
@@ -51,7 +51,8 @@
         </div>
 
 
-        <div class="form-group" style="margin-bottom: 1.5rem; width: 100%; max-width: 600px;">
+        <div class="form-group"
+            style="border:2px solid var(--white-color);border-radius: 0.5rem;margin-bottom: 1.5rem; width: 100%; max-width: 600px;">
             <label for="participantes_selecionados"
                 style="display: block; font-size: 2rem; color: var(--white-color); margin-bottom: 1rem;">
                 Participantes Selecionados
