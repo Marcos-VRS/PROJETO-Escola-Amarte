@@ -297,6 +297,9 @@ def consultar_evento(request):
             participantes_selecionados__icontains=query_participante
         )
 
+    # Ordenar eventos por data em ordem decrescente
+    eventos = eventos.order_by("-data")
+
     context = {
         "eventos": eventos,
         "query_nome": query_nome,
