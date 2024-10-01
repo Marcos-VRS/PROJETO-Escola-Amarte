@@ -45,13 +45,13 @@
                     </thead>
                     <tbody>
                         {% for evento in eventos %}
-                        <tr>
+                        <tr >
                             <td>
                                 <a href="{% url 'financeiro:atualizar_evento' evento.id %}" class="event-link">
                                     {{ evento.nome }}
                                 </a>
                             </td>
-                            <td>{{ evento.data }}</td>
+                            <td>{{ evento.data }} - {{evento.hora}}</td>
                             <td class="participants-cell">
                                 {% for participante in evento.participantes_selecionados %}
                                 {{ participante.nome }} ({{ participante.categoria }}),

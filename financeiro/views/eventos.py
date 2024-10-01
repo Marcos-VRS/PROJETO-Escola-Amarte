@@ -145,7 +145,9 @@ def dias_da_semana_atual(hoje):
     for i in range(7):  # De domingo a sábado
         dia_atual = primeiro_dia_semana + timedelta(days=i)
 
-        dias_semana.append({"numero_dia": dia_atual.day})
+        dias_semana.append(
+            {"numero_dia": dia_atual.day, "mes": dia_atual.month, "ano": dia_atual.year}
+        )
     print(f"A lista de dias da semana é : {dias_semana}")
     return dias_semana
 
@@ -156,7 +158,9 @@ def calendario_view(request, periodo, ano=None, mes=None):
     hoje = datetime.now()  # Data atual
     semana_atual = dias_da_semana_atual(hoje)
     print(f"O dia atual é {hoje.day}")
-    print(f"A semana atual é {semana_atual}")
+
+    for semana in semana_atual:
+        print(f"A semana atual é {semana}")
 
     # Lista de nomes dos meses
     nomes_meses = [
@@ -214,7 +218,8 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
         calendario = MeuCalendario(eventos).eventos_para_dicionarios_semana(ano, mes)
         partial = "global/partials/calendario_semanal.html"
-
+    for calendarios in calendario:
+        print(f"Essa é a variável calendario: {calendarios}")
     # Renderizar o template com os dados
     return render(
         request,
@@ -298,7 +303,7 @@ def consultar_evento(request):
         )
 
     # Ordenar eventos por data em ordem decrescente
-    eventos = eventos.order_by("-data")
+    eventos = eventos.order_by("-data", "hora")
 
     # Imprimir informações detalhadas sobre os eventos
     for evento in eventos:

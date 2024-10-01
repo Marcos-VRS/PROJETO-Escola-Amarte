@@ -5,8 +5,9 @@
             <!-- <a href="#" class="btn-navegacao">
                 &#8249; Semana Anterior
             </a> -->
-            <span class="btn-navegacao">{{ semana_atual.0.numero_dia }}/{{mes}}/{{ano}} -
-                {{semana_atual.6.numero_dia}}/{{mes}}/{{ano}}</span>
+            <span class="btn-navegacao">{{ semana_atual.0.numero_dia }}/{{ semana_atual.0.mes }}/{{semana_atual.0.ano}}
+                - {{semana_atual.6.numero_dia}}/{{semana_atual.6.mes}}/{{semana_atual.6.ano}}</span>
+
             <!-- <a href="#" class="btn-navegacao">
                 Semana Seguinte &#8250;
             </a> -->
@@ -28,7 +29,7 @@
             {% for dia in semana_atual %}
             <td
                 class="day-number {% if dia.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
-                <h3><u>{{ dia.numero_dia }}/{{ mes }}</u></h3><br> <!-- Exibe o número do dia -->
+                <h3><u>{{ dia.numero_dia }}/{{ dia.mes }}</u></h3><br> <!-- Exibe o número do dia -->
                 <!-- Lista de eventos para o dia -->
 
 
