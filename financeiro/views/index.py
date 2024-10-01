@@ -36,7 +36,7 @@ def eventos(request):
     hoje = datetime.now()  # Data atual
 
     return redirect(
-        "financeiro:calendario_view", periodo="mensal", ano=hoje.year, mes=hoje.month
+        "financeiro:calendario_view", periodo="semanal", ano=hoje.year, mes=hoje.month
     )
 
 
