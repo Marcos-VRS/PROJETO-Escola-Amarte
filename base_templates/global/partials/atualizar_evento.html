@@ -101,7 +101,9 @@
         const container = document.getElementById('participants-container');
         let participantesSelecionados = [];
 
-
+        // Ocultar a div de participantes atuais
+        const participantesAtuaisDiv = document.querySelector('#participantes-list').parentElement;
+        participantesAtuaisDiv.style.display = 'none'; // Oculta a div
 
         // Criação do dropdown de categorias (mesmo código anterior)
         const categoryDropdown = document.createElement('select');
@@ -205,12 +207,12 @@
                 div.style.position = 'relative'; // Necessário para posicionar o botão de remoção
                 div.style.transition = 'background-color 0.3s ease, color 0.3s ease'; // Transição para mudança de cor
                 div.innerHTML = `
-                <span>${participante.nome} (${participante.categoria})</span>
-                <button type="button" class="remove-participant-btn"
-                    style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
-                    X
-                </button>
-            `;
+                    <span>${participante.nome} (${participante.categoria})</span>
+                    <button type="button" class="remove-participant-btn"
+                        style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                        X
+                    </button>
+                `;
 
                 // Função para remover o participante da lista e do DOM
                 div.querySelector('.remove-participant-btn').addEventListener('click', function () {
@@ -250,6 +252,7 @@
             hiddenInput.value = JSON.stringify(participantes);  // Armazena o dicionário como JSON
         }
     });
+
 
 </script>
 
