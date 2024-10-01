@@ -130,7 +130,7 @@ class Participante(models.Model):
 # modelo Evento
 class Evento(models.Model):
     nome = models.CharField(max_length=100)
-    data = models.DateTimeField()
+    data = models.DateField()
     hora = models.TimeField()
     duracao = models.CharField(max_length=100)  # Campo para Duração
     descricao = models.TextField()

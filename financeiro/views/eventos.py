@@ -300,6 +300,12 @@ def consultar_evento(request):
     # Ordenar eventos por data em ordem decrescente
     eventos = eventos.order_by("-data")
 
+    # Imprimir informações detalhadas sobre os eventos
+    for evento in eventos:
+        print(
+            f"Nome: {evento.nome}, Data: {evento.data}, Hora: {evento.hora}, Duração: {evento.duracao}"
+        )
+
     context = {
         "eventos": eventos,
         "query_nome": query_nome,
