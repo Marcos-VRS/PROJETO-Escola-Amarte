@@ -358,6 +358,7 @@ def atualizar_evento(request, id):
 
     # Carregar os participantes selecionados (JSON)
     participantes_json = evento.participantes_selecionados
+    print(f"Aqui está o participantes_json : {participantes_json}")
     participantes_lista = []
 
     # Tratar o JSON para extrair nome e categoria
@@ -370,6 +371,20 @@ def atualizar_evento(request, id):
         form = EventoForm(request.POST, instance=evento)
         if form.is_valid():
             form.save()
+            participantes_data = request.POST.get("participantes_selecionados")
+            if participantes_data:
+                try:
+                    participantes = json.loads(
+                        participantes_data
+                    )  # Converte a string JSON em uma lista de dicionários
+                    evento.participantes_selecionados = (
+                        participantes  # Salva a lista como JSON no modelo
+                    )
+                    evento.save()  # Salvar o evento após adicionar participantes
+                except json.JSONDecodeError:
+                    # Opcional: lidar com o erro se a decodificação JSON falhar
+                    pass
+
             return redirect("financeiro:eventos")
     else:
         form = EventoForm(instance=evento)

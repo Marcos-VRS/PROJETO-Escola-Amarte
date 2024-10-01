@@ -56,7 +56,7 @@
             style="padding: 0.5rem;border:2px solid var(--white-color);border-radius: 0.5rem;margin-bottom: 1.5rem; width: 100%; max-width: 600px;">
             <label for="participantes_selecionados"
                 style="display: block; font-size: 2rem; color: var(--white-color); margin-bottom: 1rem;">
-                Participantes:
+                Participantes Atuais:
             </label>
 
             <!-- Lista Vertical dos Participantes -->
@@ -65,13 +65,27 @@
                 <li id="participante-{{ forloop.counter }}"
                     style="font-size: 1.6rem; color: var(--white-color); margin-bottom: 0.5rem;">
                     -{{ participante }}
-                    <!-- Botão de Remover -->
-                    <button type="button" class="remove-btn" data-index="{{ forloop.counter }}"
-                        style="margin-left: 10px; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 0.2rem 0.6rem; border-radius: 0.3rem;">X</button>
-                </li>
-                {% endfor %}
+
+                    {% endfor %}
             </ul>
         </div>
+
+        <!-- Botão para adicionar participantes -->
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <button id="add-participant-btn" type="button"
+                style="background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; font-size: 1.8rem; border-radius: 0.5rem; border: 2px solid var(--white-color); cursor: pointer; transition: background-color 0.3s ease;">
+                Novos Participantes
+            </button>
+        </div>
+
+        <!-- Área onde os participantes serão adicionados -->
+        <div id="participants-container" style="width: 100%; max-width: 600px;">
+            <!-- Dropdowns serão adicionados aqui pelo JavaScript -->
+        </div>
+
+        <!-- Campo oculto para participantes selecionados -->
+        <input type="hidden" id="participantes-selecionados" name="participantes_selecionados">
+
 
         <div style="margin-top: 2rem;">
             <button type="submit"
@@ -81,5 +95,163 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('add-participant-btn').addEventListener('click', function () {
+        const container = document.getElementById('participants-container');
+        let participantesSelecionados = [];
+
+
+
+        // Criação do dropdown de categorias (mesmo código anterior)
+        const categoryDropdown = document.createElement('select');
+        categoryDropdown.id = 'category-dropdown';
+        categoryDropdown.style.fontSize = '1.6rem';
+        categoryDropdown.style.padding = '1rem';
+        categoryDropdown.style.borderRadius = '0.5rem';
+        categoryDropdown.style.border = '2px solid var(--white-color)';
+        categoryDropdown.style.backgroundColor = 'var(--white-color)';
+        categoryDropdown.innerHTML = '<option value="">Selecione uma categoria</option>';
+
+        // Adicionando opções de categorias (mesmo código anterior)
+        fetch("{% url 'financeiro:buscar_categorias' %}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.categorias.length > 0) {
+                    data.categorias.forEach(categoria => {
+                        const option = document.createElement('option');
+                        option.value = categoria.nome;
+                        option.textContent = categoria.nome;
+                        categoryDropdown.appendChild(option);
+                    });
+                }
+            });
+
+        container.innerHTML = '';  // Limpar o container
+        container.appendChild(categoryDropdown);
+
+        // Criação do dropdown de participantes (mesmo código anterior)
+        const participantDropdown = document.createElement('select');
+        participantDropdown.id = 'participant-dropdown';
+        participantDropdown.style.fontSize = '1.6rem';
+        participantDropdown.style.padding = '1rem';
+        participantDropdown.style.borderRadius = '0.5rem';
+        participantDropdown.style.border = '2px solid var(--white-color)';
+        participantDropdown.style.backgroundColor = 'var(--white-color)';
+        participantDropdown.disabled = true;
+        participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
+
+        // Adicionando o dropdown de participantes ao container (mesmo código anterior)
+        container.appendChild(participantDropdown);
+
+        // Evento de mudança no dropdown de categorias (mesmo código anterior)
+        categoryDropdown.addEventListener('change', function () {
+            const categoria = this.value;
+            if (categoria) {
+                fetch("{% url 'financeiro:buscar_participantes' %}?categoria=" + encodeURIComponent(categoria))
+                    .then(response => response.json())
+                    .then(data => {
+                        participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
+                        participantDropdown.disabled = false;
+                        if (data.participantes.length > 0) {
+                            data.participantes.forEach(participante => {
+                                const option = document.createElement('option');
+                                option.value = participante.id;
+                                option.textContent = participante.nome;
+                                option.setAttribute('data-cpf', participante.cpf); // Adiciona o CPF ao atributo
+                                option.setAttribute('data-categoria', participante.categoria); // Adiciona a categoria ao atributo
+                                participantDropdown.appendChild(option);
+                            });
+                        } else {
+                            participantDropdown.innerHTML = '<option value="">Nenhum participante encontrado.</option>';
+                            participantDropdown.disabled = true;
+                        }
+                    });
+            } else {
+                participantDropdown.innerHTML = '<option value="">Selecione um participante</option>';
+                participantDropdown.disabled = true;
+            }
+        });
+
+        // Adiciona um botão para adicionar o participante selecionado
+        const addButton = document.createElement('button');
+        addButton.textContent = 'Adicionar';
+        addButton.type = 'button';
+        addButton.style.backgroundColor = 'var(--primary-color)';
+        addButton.style.color = 'var(--white-color)';
+        addButton.style.padding = '1rem 2rem';
+        addButton.style.fontSize = '1.8rem';
+        addButton.style.borderRadius = '0.5rem';
+        addButton.style.border = '2px solid var(--white-color)';
+        addButton.style.cursor = 'pointer';
+        addButton.style.transition = 'background-color 0.3s ease';
+
+        addButton.addEventListener('click', function () {
+            const selectedOption = participantDropdown.options[participantDropdown.selectedIndex];
+            if (selectedOption.value) {
+                const participante = {
+                    id: selectedOption.value,
+                    nome: selectedOption.textContent,
+                    cpf: selectedOption.getAttribute('data-cpf'), // Obtém o CPF
+                    categoria: selectedOption.getAttribute('data-categoria') // Obtém a categoria
+                };
+
+                const div = document.createElement('div');
+                div.className = 'participant';
+                div.style.marginBottom = '1rem';
+                div.style.padding = '1rem';
+                div.style.border = '1px solid black'; // Borda preta fina
+                div.style.borderRadius = '0.5rem';
+                div.style.position = 'relative'; // Necessário para posicionar o botão de remoção
+                div.style.transition = 'background-color 0.3s ease, color 0.3s ease'; // Transição para mudança de cor
+                div.innerHTML = `
+                <span>${participante.nome} (${participante.categoria})</span>
+                <button type="button" class="remove-participant-btn"
+                    style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                    X
+                </button>
+            `;
+
+                // Função para remover o participante da lista e do DOM
+                div.querySelector('.remove-participant-btn').addEventListener('click', function () {
+                    container.removeChild(div);
+
+                    // Remover o participante da lista de selecionados
+                    participantesSelecionados = participantesSelecionados.filter(p => p.id !== participante.id);
+                    updateHiddenInput();
+                });
+
+                div.addEventListener('mouseenter', function () {
+                    this.style.backgroundColor = 'white';
+                    this.style.color = 'black';
+                });
+
+                div.addEventListener('mouseleave', function () {
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                });
+
+                container.appendChild(div);
+                participantesSelecionados.push(participante);
+                updateHiddenInput();
+            }
+        });
+
+        container.appendChild(addButton);
+
+        function updateHiddenInput() {
+            const hiddenInput = document.getElementById('participantes-selecionados');
+            const participantes = participantesSelecionados.map(p => ({
+                id: p.id,
+                nome: p.nome,
+                cpf: p.cpf,
+                categoria: p.categoria
+            }));
+            hiddenInput.value = JSON.stringify(participantes);  // Armazena o dicionário como JSON
+        }
+    });
+
+</script>
+
 
 {% endblock %}
