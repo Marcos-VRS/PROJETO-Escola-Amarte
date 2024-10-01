@@ -5,7 +5,8 @@
             <a href="#" class="btn-navegacao">
                 &#8249; Semana Anterior
             </a>
-            <span class="btn-navegacao">{{ semana_atual.0.numero_dia }}/{{mes}}/{{ano}} - {{semana_atual.6.numero_dia}}/{{mes}}/{{ano}}</span>
+            <span class="btn-navegacao">{{ semana_atual.0.numero_dia }}/{{mes}}/{{ano}} -
+                {{semana_atual.6.numero_dia}}/{{mes}}/{{ano}}</span>
             <a href="#" class="btn-navegacao">
                 Semana Seguinte &#8250;
             </a>
@@ -28,36 +29,36 @@
             <td
                 class="day-number {% if dia.numero_dia == hoje.day and mes == hoje.month and ano == hoje.year %}hoje{% endif %}">
                 <h3><u>{{ dia.numero_dia }}/{{ mes }}</u></h3><br> <!-- Exibe o número do dia -->
-                    <!-- Lista de eventos para o dia -->
-                
+                <!-- Lista de eventos para o dia -->
 
-                <ul  >
+
+                <ul>
                     {% for semana in calendario %}
-                        {% for dia_calendario in semana %}
-                            {% if dia_calendario.numero_dia == dia.numero_dia %}
-                                {% if dia_calendario.eventos %}
-                                    {% for evento in dia_calendario.eventos %}
-                                        <li style="padding:1rem;background:rgba(0, 0, 0, 0.534);border-radius: 1rem;">
-                                            <b><big><u>{{ evento.nome }}</u></big></b><br><br> 
-                                            <b>Hora:</b> {{ evento.hora }}<br><br> 
-                                            <b>Duração:</b> {{ evento.duracao }}<br><br> 
-                                            <b>Descrição:</b> <i>{{ evento.descricao }}</i><br><br> 
-                                            <b>Participantes:</b>
-                                            <ul>
-                                                {% for participante in evento.participantes %}
-                                                    <li>-{{ participante.nome }}<b>({{ participante.categoria }})</b></li><br>
-                                                {% endfor %}
-                                            </ul>
-                                        </li><br><br>
-                                    {% endfor %}
-                                {% else %}
-                                    <li>Sem eventos</li>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
+                    {% for dia_calendario in semana %}
+                    {% if dia_calendario.numero_dia == dia.numero_dia %}
+                    {% if dia_calendario.eventos %}
+                    {% for evento in dia_calendario.eventos %}
+                    <li style="padding:1rem;background:rgba(0, 0, 0, 0.534);border-radius: 1rem;">
+                        <b><big><u>{{ evento.nome }}</u></big></b><br><br>
+                        <b>Hora:</b> {{ evento.hora }}<br><br>
+                        <b>Duração:</b> {{ evento.duracao }}<br><br>
+                        <b>Descrição:</b> <i>{{ evento.descricao }}</i><br><br>
+                        <b>Participantes:</b>
+                        <ul>
+                            {% for participante in evento.participantes %}
+                            <li>-{{ participante.nome }}<b>({{ participante.categoria }})</b></li><br>
+                            {% endfor %}
+                        </ul>
+                    </li><br><br>
+                    {% endfor %}
+                    {% else %}
+                    <li>Sem eventos</li>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
                     {% endfor %}
                 </ul>
-                
+
             </td>
             {% endfor %}
         </tr>

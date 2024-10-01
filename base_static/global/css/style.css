@@ -802,3 +802,10 @@ button {
     border-radius: 5px;
     /* Adiciona cantos arredondados (opcional) */
 }
+
+.day-cell.hoje {
+    border: 2px solid red;
+    /* Define bordas vermelhas */
+    border-radius: 5px;
+    /* Adiciona cantos arredondados (opcional) */
+}
