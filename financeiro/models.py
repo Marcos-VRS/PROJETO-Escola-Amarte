@@ -27,6 +27,14 @@ class Financeiro_Cadastro(models.Model):
         ("CNPJ", "CNPJ"),
     ]
 
+    CATEGORIA_DE_PAGAMENTO_CHOICES = [("Receita", "Receita"), ("Despesa", "Despesa")]
+
+    FREQUENCIA_DE_PAGAMENTO_CHOICES = [
+        ("Avulso", "Avulso"),
+        ("Semanal", "Semanal"),
+        ("Mensal", "Mensal"),
+    ]
+
     nome = models.CharField(max_length=50)
     telefone = models.CharField(max_length=50)
     email = models.EmailField(max_length=254, blank=True)
@@ -39,6 +47,14 @@ class Financeiro_Cadastro(models.Model):
         max_length=4, choices=CPF_CNPJ_CHOICES, default="CPF"
     )
     cpf_cnpj_numero = models.CharField(max_length=20, blank=False)
+
+    categoria_de_pagamento = models.CharField(
+        max_length=50, choices=CATEGORIA_DE_PAGAMENTO_CHOICES
+    )
+
+    frequencia_de_pagamento = models.CharField(
+        max_length=50, choices=FREQUENCIA_DE_PAGAMENTO_CHOICES
+    )
 
     def __str__(self) -> str:
         return f"{self.nome}"
