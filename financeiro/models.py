@@ -65,6 +65,8 @@ class Financeiro_Cadastro(models.Model):
 
     data_de_pagamento = models.PositiveIntegerField(
         validators=[validate_day],
+        null=True,
+        blank=True,
     )
     valor_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
