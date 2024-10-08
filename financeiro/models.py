@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
+
 import re
 
 
@@ -15,6 +16,11 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+
+def validate_day(value):
+    if value < 1 or value > 31:
+        raise ValidationError(_("O valor deve ser um número entre 1 e 31."))
 
 
 # Modelo para Cadastro Financeiro
@@ -57,15 +63,8 @@ class Financeiro_Cadastro(models.Model):
         max_length=50, choices=FREQUENCIA_DE_PAGAMENTO_CHOICES
     )
 
-    data_de_pagamento = models.CharField(
-        max_length=2,
-        validators=[
-            RegexValidator(
-                regex="^([0-9]{1,2})$",
-                message="Deve conter apenas 2 números entre 01 e 31.",
-            )
-        ],
-        default="05",
+    data_de_pagamento = models.PositiveIntegerField(
+        validators=[validate_day],
     )
     valor_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
