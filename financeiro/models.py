@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 import re
 
 
@@ -31,8 +32,8 @@ class Financeiro_Cadastro(models.Model):
 
     FREQUENCIA_DE_PAGAMENTO_CHOICES = [
         ("Avulso", "Avulso"),
-        ("Semanal", "Semanal"),
-        ("Mensal", "Mensal"),
+        ("Aula", "Aula"),
+        ("Mensalidade", "Mensalidade"),
     ]
 
     nome = models.CharField(max_length=50)
@@ -56,8 +57,16 @@ class Financeiro_Cadastro(models.Model):
         max_length=50, choices=FREQUENCIA_DE_PAGAMENTO_CHOICES
     )
 
-    # data_de_pagamento = models.DateField()
-
+    data_de_pagamento = models.CharField(
+        max_length=2,
+        validators=[
+            RegexValidator(
+                regex="^([0-9]{1,2})$",
+                message="Deve conter apenas 2 números entre 01 e 31.",
+            )
+        ],
+        default="05",
+    )
     valor_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self) -> str:

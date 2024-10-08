@@ -38,6 +38,7 @@ class FinanceiroCadastroForm(forms.ModelForm):
             "cpf_cnpj_numero",
             "categoria_de_pagamento",
             "frequencia_de_pagamento",
+            "data_de_pagamento",
             "valor_pago",  # Adicione o campo valor_pago
         ]
         widgets = {
@@ -52,6 +53,7 @@ class FinanceiroCadastroForm(forms.ModelForm):
             "cpf_cnpj_numero": forms.TextInput(attrs={"class": "form-control"}),
             "categoria_de_pagamento": forms.Select(attrs={"class": "form-control"}),
             "frequencia_de_pagamento": forms.Select(attrs={"class": "form-control"}),
+            "data_de_pagamento": forms.TextInput(attrs={"class": "form-control"}),
             "valor_pago": forms.NumberInput(
                 attrs={
                     "class": "form-control",
