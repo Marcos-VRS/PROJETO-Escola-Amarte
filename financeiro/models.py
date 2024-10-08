@@ -56,6 +56,10 @@ class Financeiro_Cadastro(models.Model):
         max_length=50, choices=FREQUENCIA_DE_PAGAMENTO_CHOICES
     )
 
+    # data_de_pagamento = models.DateField()
+
+    valor_pago = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
     def __str__(self) -> str:
         return f"{self.nome}"
 

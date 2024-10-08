@@ -27,16 +27,22 @@ def criar_cadastro_view(request):
 def pesquisar_cadastro(request):
     username = request.user.username  # Obtém o nome de usuário do request
     query = request.GET.get("q", "")
+
     if query:
+        # Filtra e ordena os resultados
         resultados = (
             Financeiro_Cadastro.objects.filter(nome__icontains=query)
             | Financeiro_Cadastro.objects.filter(cpf_cnpj_numero__icontains=query)
             | Financeiro_Cadastro.objects.filter(email__icontains=query)
             | Financeiro_Cadastro.objects.filter(telefone__icontains=query)
             | Financeiro_Cadastro.objects.filter(categoria__name__icontains=query)
-        )
+        ).order_by(
+            "-data_de_criação"
+        )  # Ordena por data de criação, mais recente primeiro
     else:
-        resultados = Financeiro_Cadastro.objects.all()
+        resultados = Financeiro_Cadastro.objects.all().order_by(
+            "-data_de_criação"
+        )  # Ordena todos os registros
 
     return render(
         request,
