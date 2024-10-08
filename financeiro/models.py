@@ -159,11 +159,21 @@ class Participante(models.Model):
 
 # modelo Evento
 class Evento(models.Model):
+
+    RECORRENCIA_CHOICES = [
+        ("Único", "Único"),
+        ("Semanal", "Semanal"),
+        ("Mensal", "Mensal"),
+    ]
+
     nome = models.CharField(max_length=100)
     data = models.DateField()
     hora = models.TimeField()
     duracao = models.CharField(max_length=100)  # Campo para Duração
     descricao = models.TextField()
+    recorrencia = models.CharField(
+        max_length=50, default="Único", choices=RECORRENCIA_CHOICES
+    )
     participantes = models.ManyToManyField(Participante, blank=True)
     participantes_selecionados = models.JSONField(default=dict, blank=True)
 
