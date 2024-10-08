@@ -36,7 +36,7 @@
                 <ul>
                     {% for semana in calendario %}
                     {% for dia_calendario in semana %}
-                    {% if dia_calendario.numero_dia == dia.numero_dia %}
+                    {% if dia_calendario.numero_dia == dia.numero_dia and dia_calendario.mes == dia.mes %}
                     {% if dia_calendario.eventos %}
                     {% for evento in dia_calendario.eventos %}
                     <li style="padding:1rem;background:rgba(0, 0, 0, 0.534);border-radius: 1rem;">

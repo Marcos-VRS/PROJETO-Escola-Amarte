@@ -97,42 +97,54 @@ class MeuCalendario(HTMLCalendar):
 
         return calendario
 
-    def eventos_para_dicionarios_semana(
-        self,
-        ano,
-        mes,
-    ):
-        # Obter a estrutura do mês em semanas (7 dias por semana, com dias 0 para dias fora do mês)
-        dias_do_mes = self.monthdays2calendar(ano, mes)
-        calendario = []
-        for week in dias_do_mes:
-            semana = []
-            for day, weekday in week:
-                if day != 0:
-                    # Filtrar os eventos para o dia atual
-                    eventos_do_dia = [
-                        {
-                            "nome": evento.nome,
-                            "hora": evento.hora.strftime("%H:%M"),
-                            "duracao": evento.duracao,
-                            "data": evento.data.strftime("%Y-%m-%d"),
-                            "descricao": evento.descricao,
-                            "participantes": [
-                                {
-                                    "nome": participante["nome"],
-                                    "categoria": participante["categoria"],
-                                }
-                                for participante in evento.participantes_selecionados
-                            ],
-                        }
-                        for evento in self.eventos
-                        if evento.data.day == day and evento.data.month == mes
-                    ]
-                    semana.append({"numero_dia": day, "eventos": eventos_do_dia})
-                else:
-                    semana.append({"numero_dia": None, "eventos": []})
+    def eventos_para_dicionarios_semana(self, ano, mes):
+        # Criar um calendário e obter as semanas com datas completas (dia, mês, ano)
+        cal = calendar.Calendar()
+        semanas = cal.monthdatescalendar(ano, mes)
 
-            calendario.append(semana)
+        # for semana in semanas:
+        #     print(f"Aqui estão as semanas: {semana}")
+
+        calendario = []
+
+        for semana in semanas:
+            semana_completa = []
+            for dia in semana:
+                # Filtrar os eventos para o dia atual
+                eventos_do_dia = [
+                    {
+                        "nome": evento.nome,
+                        "hora": evento.hora.strftime("%H:%M"),
+                        "duracao": evento.duracao,
+                        "data": evento.data.strftime("%Y-%m-%d"),
+                        "descricao": evento.descricao,
+                        "participantes": [
+                            {
+                                "nome": participante["nome"],
+                                "categoria": participante["categoria"],
+                            }
+                            for participante in evento.participantes_selecionados
+                        ],
+                    }
+                    for evento in self.eventos
+                    if evento.data.day == dia.day
+                    and evento.data.month == dia.month
+                    and evento.data.year == dia.year
+                ]
+
+                semana_completa.append(
+                    {
+                        "numero_dia": dia.day,
+                        "mes": dia.month,
+                        "ano": dia.year,
+                        "eventos": eventos_do_dia,
+                    }
+                )
+
+            calendario.append(semana_completa)
+
+        # for calendarios in calendario:
+        #     print(f"Aqui está o calendário : {calendarios}")
 
         return calendario
 
@@ -148,7 +160,6 @@ def dias_da_semana_atual(hoje):
         dias_semana.append(
             {"numero_dia": dia_atual.day, "mes": dia_atual.month, "ano": dia_atual.year}
         )
-    print(f"A lista de dias da semana é : {dias_semana}")
     return dias_semana
 
 
@@ -157,10 +168,6 @@ def calendario_view(request, periodo, ano=None, mes=None):
     username = request.user.username
     hoje = datetime.now()  # Data atual
     semana_atual = dias_da_semana_atual(hoje)
-    print(f"O dia atual é {hoje.day}")
-
-    for semana in semana_atual:
-        print(f"A semana atual é {semana}")
 
     # Lista de nomes dos meses
     nomes_meses = [
@@ -196,9 +203,6 @@ def calendario_view(request, periodo, ano=None, mes=None):
     semana_anterior = hoje - timedelta(days=7)
     semana_seguinte = hoje + timedelta(days=7)
 
-    print(
-        f"o botão semana anteioro é : {semana_anterior}e a semana seguinte é :{semana_seguinte}"
-    )
     # Nome do mês baseado no número
     nome_mes = nomes_meses[mes - 1]
 
@@ -218,8 +222,7 @@ def calendario_view(request, periodo, ano=None, mes=None):
 
         calendario = MeuCalendario(eventos).eventos_para_dicionarios_semana(ano, mes)
         partial = "global/partials/calendario_semanal.html"
-    for calendarios in calendario:
-        print(f"Essa é a variável calendario: {calendarios}")
+
     # Renderizar o template com os dados
     return render(
         request,
@@ -305,12 +308,6 @@ def consultar_evento(request):
     # Ordenar eventos por data em ordem decrescente
     eventos = eventos.order_by("-data", "hora")
 
-    # Imprimir informações detalhadas sobre os eventos
-    for evento in eventos:
-        print(
-            f"Nome: {evento.nome}, Data: {evento.data}, Hora: {evento.hora}, Duração: {evento.duracao}"
-        )
-
     context = {
         "eventos": eventos,
         "query_nome": query_nome,
@@ -329,11 +326,9 @@ def consultar_evento(request):
 @login_required(login_url="financeiro:tela_login")
 def buscar_participantes(request):
     categoria_nome = request.GET.get("categoria")
-    print(f"Categoria recebida: {categoria_nome}")
     if categoria_nome:
         try:
             categoria = Category.objects.get(name=categoria_nome)
-            print(f"achei a categoria {categoria_nome}")
             participantes = Financeiro_Cadastro.objects.filter(categoria=categoria)
             participantes_data = [
                 {
@@ -346,7 +341,6 @@ def buscar_participantes(request):
             ]
             return JsonResponse({"participantes": participantes_data})
         except Category.DoesNotExist:
-            print("não encontrei a categoria {categoria_nome}")
             return JsonResponse({"error": "Categoria não encontrada"}, status=404)
     else:
         return JsonResponse({"error": "Categoria não informada"}, status=400)
@@ -372,7 +366,6 @@ def atualizar_evento(request, id):
 
     # Carregar os participantes selecionados (JSON)
     participantes_json = evento.participantes_selecionados
-    print(f"Aqui está o participantes_json : {participantes_json}")
     participantes_lista = []
 
     # Tratar o JSON para extrair nome e categoria
@@ -402,10 +395,7 @@ def atualizar_evento(request, id):
             return redirect("financeiro:eventos")
     else:
         form = EventoForm(instance=evento)
-    print(f"Esse é o FORM {form}")
 
-    print(f"O JSON com os participantes é {participantes_json}")
-    print(f"A lista de participantes é {participantes_lista}")
     return render(
         request,
         "global/partials/atualizar_evento.html",
