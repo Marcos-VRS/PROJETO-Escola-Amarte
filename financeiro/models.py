@@ -171,7 +171,7 @@ class Evento(models.Model):
     hora = models.TimeField()
     duracao = models.CharField(max_length=100)  # Campo para Duração
     descricao = models.TextField()
-    recorrencia = models.CharField(
+    recorrência = models.CharField(
         max_length=50, default="Único", choices=RECORRENCIA_CHOICES
     )
     participantes = models.ManyToManyField(Participante, blank=True)
