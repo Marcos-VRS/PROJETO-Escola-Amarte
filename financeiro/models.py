@@ -157,6 +157,11 @@ class Participante(models.Model):
         )
 
 
+def validar_repeticao(value):
+    if not isinstance(value, int):
+        raise ValidationError(_("A repetição precisa ser um número"))
+
+
 # modelo Evento
 class Evento(models.Model):
 
@@ -173,6 +178,9 @@ class Evento(models.Model):
     descricao = models.TextField()
     recorrência = models.CharField(
         max_length=50, default="Único", choices=RECORRENCIA_CHOICES
+    )
+    repetições = models.IntegerField(
+        validators=[validar_repeticao], null=True, blank=True, default=0
     )
     participantes = models.ManyToManyField(Participante, blank=True)
     participantes_selecionados = models.JSONField(default=dict, blank=True)

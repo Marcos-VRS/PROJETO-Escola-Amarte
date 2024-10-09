@@ -9,6 +9,7 @@ from django.utils import timezone
 import json, calendar
 from django.utils.html import format_html
 from calendar import HTMLCalendar, SUNDAY
+from dateutil.relativedelta import relativedelta
 
 
 class MeuCalendario(HTMLCalendar):
@@ -265,6 +266,32 @@ def criar_evento(request):
                 except json.JSONDecodeError:
                     # Opcional: lidar com o erro se a decodificação JSON falhar
                     pass
+
+            # Adicionar lógica de recorrência
+            recorrencia = form.cleaned_data.get("recorrência")
+            numero_repeticoes = form.cleaned_data.get(
+                "repetições"
+            )  # Obter o valor de repeticoes do formulário
+
+            if recorrencia in ["Semanal", "Mensal"] and numero_repeticoes > 1:
+                for i in range(1, numero_repeticoes + 1):
+                    if recorrencia == "Semanal":
+                        nova_data = evento.data + timedelta(weeks=i)
+                    elif recorrencia == "Mensal":
+                        nova_data = evento.data + relativedelta(
+                            months=i
+                        )  # Usa months para adicionar meses
+
+                    novo_evento = Evento(
+                        nome=evento.nome,
+                        data=nova_data,
+                        hora=evento.hora,
+                        duracao=evento.duracao,
+                        descricao=evento.descricao,
+                        recorrência=evento.recorrência,
+                        participantes_selecionados=evento.participantes_selecionados,
+                    )
+                    novo_evento.save()
 
             return redirect("financeiro:eventos")
     else:
