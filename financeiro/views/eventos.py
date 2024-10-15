@@ -208,7 +208,9 @@ def calendario_view(request, periodo, ano=None, mes=None):
     nome_mes = nomes_meses[mes - 1]
 
     # Consultar os eventos do mês/ano fornecidos
-    eventos = Evento.objects.filter(data__year=ano, data__month=mes)
+    eventos = Evento.objects.filter(data__year=ano, data__month=mes).order_by(
+        "data", "hora"
+    )
 
     # Definir variáveis para o calendário
     calendario = None
