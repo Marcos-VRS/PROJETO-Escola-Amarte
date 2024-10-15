@@ -136,6 +136,15 @@
                                 option.textContent = participante.nome;
                                 option.setAttribute('data-cpf', participante.cpf); // Adiciona o CPF ao atributo
                                 option.setAttribute('data-categoria', participante.categoria); // Adiciona a categoria ao atributo
+                                option.setAttribute('data-email', participante.email); // Adiciona o email ao atributo
+                                option.setAttribute('data-telefone', participante.telefone); // Adiciona o telefone ao atributo
+                                option.setAttribute('data-descricao', participante.descricao); // Adiciona a descrição ao atributo
+                                option.setAttribute('data-cpf_cnpj_tipo', participante.cpf_cnpj_tipo); // Adiciona o tipo de CPF/CNPJ ao atributo
+                                option.setAttribute('data-cpf_cnpj_numero', participante.cpf_cnpj_numero); // Adiciona o número de CPF/CNPJ ao atributo
+                                option.setAttribute('data-categoria_de_pagamento', participante.categoria_de_pagamento); // Adiciona a categoria de pagamento ao atributo
+                                option.setAttribute('data-frequencia_de_pagamento', participante.frequencia_de_pagamento); // Adiciona a frequência de pagamento ao atributo
+                                option.setAttribute('data-data_de_pagamento', participante.data_de_pagamento); // Adiciona a data de pagamento ao atributo
+                                option.setAttribute('data-valor_pago', participante.valor_pago); // Adiciona o valor pago ao atributo
                                 participantDropdown.appendChild(option);
                             });
                         } else {
@@ -169,7 +178,16 @@
                     id: selectedOption.value,
                     nome: selectedOption.textContent,
                     cpf: selectedOption.getAttribute('data-cpf'), // Obtém o CPF
-                    categoria: selectedOption.getAttribute('data-categoria') // Obtém a categoria
+                    categoria: selectedOption.getAttribute('data-categoria'), // Obtém a categoria
+                    email: selectedOption.getAttribute('data-email'), // Obtém o email
+                    telefone: selectedOption.getAttribute('data-telefone'), // Obtém o telefone
+                    descricao: selectedOption.getAttribute('data-descricao'), // Obtém a descrição
+                    cpf_cnpj_tipo: selectedOption.getAttribute('data-cpf_cnpj_tipo'), // Obtém o tipo de CPF/CNPJ
+                    cpf_cnpj_numero: selectedOption.getAttribute('data-cpf_cnpj_numero'), // Obtém o número de CPF/CNPJ
+                    categoria_de_pagamento: selectedOption.getAttribute('data-categoria_de_pagamento'), // Obtém a categoria de pagamento
+                    frequencia_de_pagamento: selectedOption.getAttribute('data-frequencia_de_pagamento'), // Obtém a frequência de pagamento
+                    data_de_pagamento: selectedOption.getAttribute('data-data_de_pagamento'), // Obtém a data de pagamento
+                    valor_pago: selectedOption.getAttribute('data-valor_pago') // Obtém o valor pago
                 };
 
                 const div = document.createElement('div');
@@ -181,12 +199,12 @@
                 div.style.position = 'relative'; // Necessário para posicionar o botão de remoção
                 div.style.transition = 'background-color 0.3s ease, color 0.3s ease'; // Transição para mudança de cor
                 div.innerHTML = `
-                <span>${participante.nome} (${participante.categoria})</span>
-                <button type="button" class="remove-participant-btn"
-                    style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
-                    X
-                </button>
-            `;
+                    <span>${participante.nome} (${participante.categoria})</span>
+                    <button type="button" class="remove-participant-btn"
+                        style="position: absolute; top: 0rem; right: 0.5rem; border: none; border-radius: 0.5rem; padding: 0.5rem; cursor: pointer;">
+                        X
+                    </button>
+                `;
 
                 // Função para remover o participante da lista e do DOM
                 div.querySelector('.remove-participant-btn').addEventListener('click', function () {
@@ -221,7 +239,16 @@
                 id: p.id,
                 nome: p.nome,
                 cpf: p.cpf,
-                categoria: p.categoria
+                categoria: p.categoria,
+                email: p.email,
+                telefone: p.telefone,
+                descricao: p.descricao,
+                cpf_cnpj_tipo: p.cpf_cnpj_tipo,
+                cpf_cnpj_numero: p.cpf_cnpj_numero,
+                categoria_de_pagamento: p.categoria_de_pagamento,
+                frequencia_de_pagamento: p.frequencia_de_pagamento,
+                data_de_pagamento: p.data_de_pagamento,
+                valor_pago: p.valor_pago
             }));
             hiddenInput.value = JSON.stringify(participantes);  // Armazena o dicionário como JSON
         }

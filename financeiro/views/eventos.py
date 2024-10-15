@@ -363,9 +363,20 @@ def buscar_participantes(request):
                     "nome": p.nome,
                     "cpf": p.cpf_cnpj_numero,
                     "categoria": categoria_nome,
+                    "email": p.email,
+                    "telefone": p.telefone,
+                    "descricao": p.descrição,
+                    "cpf_cnpj_tipo": p.cpf_cnpj_tipo,
+                    "cpf_cnpj_numero": p.cpf_cnpj_numero,
+                    "categoria_de_pagamento": p.categoria_de_pagamento,
+                    "frequencia_de_pagamento": p.frequencia_de_pagamento,
+                    "data_de_pagamento": p.data_de_pagamento,
+                    "valor_pago": p.valor_pago,
                 }
                 for p in participantes
             ]
+            for a in participantes_data:
+                print(f"Aqui estão so dados dos participantes:{participantes_data}")
             return JsonResponse({"participantes": participantes_data})
         except Category.DoesNotExist:
             return JsonResponse({"error": "Categoria não encontrada"}, status=404)
