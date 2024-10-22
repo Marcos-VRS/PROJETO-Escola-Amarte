@@ -378,7 +378,7 @@ def buscar_participantes(request):
                 for p in participantes
             ]
             for a in participantes_data:
-                print(f"Aqui estão so dados dos participantes:{participantes_data}")
+                print(f"Aqui estão so dados dos participantes:")
             return JsonResponse({"participantes": participantes_data})
         except Category.DoesNotExist:
             return JsonResponse({"error": "Categoria não encontrada"}, status=404)

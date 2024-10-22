@@ -47,4 +47,5 @@ urlpatterns = [
         views.eventos.calendario_view,
         name="calendario_view",
     ),
+    # TRANSACOES
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
