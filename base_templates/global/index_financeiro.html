@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'global/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/transacoes_style.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/dashboard_style.css' %}">
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:wght@400;400italic;700&display=swap"
         rel="stylesheet">
@@ -106,7 +108,7 @@
             <div class="user-info">Olá, {{ username }}</div>
             <h2>Financeiro</h2>
             <ul>
-                <li><a href="{% url 'financeiro:dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'financeiro:dashboard' %}">Resumo</a></li>
                 <li><a href="{% url 'financeiro:tarefas' %}">Tarefas</a></li>
                 <li><a href="{% url 'financeiro:transacoes' %}">Transações</a></li>
                 <li><a href="{% url 'financeiro:eventos' %}">Eventos</a></li>

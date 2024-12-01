@@ -1,0 +1,55 @@
+:root {
+    --primary-color: #230023;
+    --white-color: #ffffffe8;
+    --light-gray-color: #eeeeee3d;
+    --faded-black-color: rgba(0, 0, 0, 0.534);
+    --faded-thin-black-color: rgba(0, 0, 0, 0.233);
+    --white-gray-color: #e2dee2;
+    --orange: rgba(126, 58, 3, 0.986);
+    --yellow-calendario: rgba(250, 247, 66, 0.986);
+    --gap: 3rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    color: var(--primary-color);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+    font-size: 6rem;
+    text-transform: uppercase;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.container-pagina {
+    color: var(--white-color);
+    border: var(--white-color) solid;
+    border-radius: 2rem;
+    height: 90vh;
+    margin: 1.5vh;
+    width: auto;
+}
