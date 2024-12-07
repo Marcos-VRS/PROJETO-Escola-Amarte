@@ -58,3 +58,8 @@ a {
     display: flex;
     justify-content: center;
 }
+
+.grafico1 {
+    height: 5rem;
+    width: auto;
+}

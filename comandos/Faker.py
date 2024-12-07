@@ -74,14 +74,14 @@ def gerar_transacao_fornecedor(nome_fornecedor):
     }
 
 
-# Gerar 440 registros de aulas
+# Gerar 1000 registros de aulas (ajustado para alcançar 1000 no total)
 registros_aulas = [
-    gerar_transacao_aula(random.choice(list(aulas.keys()))) for _ in range(440)
+    gerar_transacao_aula(random.choice(list(aulas.keys()))) for _ in range(1000)
 ]
 
-# Gerar 220 registros de fornecedores/despesas
+# Gerar 300 registros de fornecedores/despesas (ajustado para alcançar 1000 no total)
 registros_fornecedores = [
-    gerar_transacao_fornecedor(random.choice(fornecedores)) for _ in range(220)
+    gerar_transacao_fornecedor(random.choice(fornecedores)) for _ in range(300)
 ]
 
 # Combinar os registros

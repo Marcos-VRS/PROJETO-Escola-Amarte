@@ -43,13 +43,3 @@ h1 {
 a {
     text-decoration: none;
 }
-
-
-.container-pagina {
-    color: var(--white-color);
-    border: var(--white-color) solid;
-    border-radius: 2rem;
-    height: 90vh;
-    margin: 1.5vh;
-    width: auto;
-}

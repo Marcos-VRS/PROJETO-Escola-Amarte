@@ -47,5 +47,8 @@ urlpatterns = [
         views.eventos.calendario_view,
         name="calendario_view",
     ),
-    # TRANSACOES
+    # DashBoard
+    path(
+        "dashboard/api/resumo-dados/", views.dashboard.resumo_dados, name="resumo_dados"
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
